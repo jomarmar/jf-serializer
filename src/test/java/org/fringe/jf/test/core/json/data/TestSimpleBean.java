@@ -18,7 +18,7 @@ public class TestSimpleBean {
 	private int dataInt = -1;
 	private float dataFloat = 1.2f;
 	private double dataDouble = 0.999d;
-	private long dataLong = 342424234243l;
+	private long dataLong = 342424234243L;
 	private Date dataDate = new Date(100000L);
 	private byte dataByte = 0x29;
 	private byte[] dataByteArray = new byte[]{0x01, 0x02, 0x03, 0x04};

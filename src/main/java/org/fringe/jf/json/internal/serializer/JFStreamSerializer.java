@@ -30,8 +30,9 @@ import com.google.gson.stream.JsonWriter;
  * The Class JFStreamSerializer.
  */
 public class JFStreamSerializer {
-	private JsonWriter jswriter = null;
 	private static Gson gson = null;
+	private JsonWriter jswriter = null;
+	
 	
 	static {
 		GsonBuilder gson_builder =  new GsonBuilder();
@@ -236,7 +237,7 @@ public class JFStreamSerializer {
 		
 		Class<?> superClass =  (Class<?>) cl.getSuperclass();
 		Field[] fields = cl.getDeclaredFields();
-		List<JFParam> params = new ArrayList<JFParam>();;
+		List<JFParam> params = new ArrayList<JFParam>();
 		for(int i = 0; i < fields.length; i++) {
 			String tag = fields[i].getName();
 			

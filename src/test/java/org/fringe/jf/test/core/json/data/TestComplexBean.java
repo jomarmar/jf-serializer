@@ -18,7 +18,7 @@ import java.util.Vector;
 public class TestComplexBean {
 	private boolean[] dataBooleanArray = new boolean[]{true, false, true, false};
 	private int[] dataIntegerArray = new int[]{10, 11, 12, 13};
-	private long[] dataLongArray = new long[]{1110l, 1111l, 1112l, 1113l, 1114l};
+	private long[] dataLongArray = new long[]{1110L, 1111L, 1112L, 1113L, 1114L};
 	private float[] dataFloatArray = new float[]{1.1f, 1.2f, 1.3f, 1.4f};
 	private double[] dataDoubleArray = new double[]{1.1d, 1.2d, 1.3d, 1.4d};
 	private TestSimpleBean[] dataObjectArray = new TestSimpleBean[] {new TestSimpleBean(), new TestSimpleBean()};

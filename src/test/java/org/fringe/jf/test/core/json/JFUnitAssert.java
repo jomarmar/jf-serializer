@@ -22,6 +22,10 @@ import org.junit.Assert;
  */
 public class JFUnitAssert {
 	
+	private JFUnitAssert() {
+		
+	}
+	
 	/**
 	 * Assert complex bean param.
 	 *

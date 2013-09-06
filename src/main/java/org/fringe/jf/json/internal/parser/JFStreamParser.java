@@ -86,7 +86,7 @@ public class JFStreamParser {
 		JFParam param = new JFParam();
 		jsreader.beginObject();
 		String name = jsreader.nextName();
-		if(name.equals("name")) {
+		if("name".equals(name)) {
 			try {
 				param.setName(jsreader.nextString());
 			} catch(Exception ex) {
@@ -95,19 +95,19 @@ public class JFStreamParser {
 			}
 		}
 		name = jsreader.nextName();
-		if(name.equals("type")) {
+		if("type".equals(name)) {
 			param.setType(jsreader.nextInt());
 		}
 		if(param.getType() == JFDataTypes.TYPE_OBJECTARRAY) {
 			name = jsreader.nextName();
-			if(name.equals("arrayClass")) {
+			if("arrayClass".equals(name)) {
 				arrayClass = jsreader.nextString();
 				
 			}
 		}
 		
 		name = jsreader.nextName();
-		if(name.equals("value")) {
+		if("value".equals(name)) {
 			switch(param.getType()) {
 				case JFDataTypes.TYPE_STRING:
 					param.setValue(jsreader.nextString());
@@ -135,12 +135,9 @@ public class JFStreamParser {
 				case JFDataTypes.TYPE_BYTE:
 					param.setValue(Byte.parseByte(jsreader.nextString()));
 					break;
-				
 				case JFDataTypes.TYPE_CHARACTER:
 					param.setValue(jsreader.nextString().charAt(0));
 					break;
-				
-				
 				case JFDataTypes.TYPE_BASE64:
 					param.setValue(Base64.decode(jsreader.nextString()));
 					break;
@@ -255,48 +252,54 @@ public class JFStreamParser {
 	private int[] toIntArray(List<Integer> list)  {
 	    int[] ret = new int[list.size()];
 	    int i = 0;
-	    for (Integer e : list)  
+	    for (Integer e : list) {
 	        ret[i++] = e.intValue();
+	    }
 	    return ret;
 	}
 	
 	private long[] toLongArray(List<Long> list)  {
 	    long[] ret = new long[list.size()];
 	    int i = 0;
-	    for (Long e : list)  
+	    for (Long e : list) {
 	        ret[i++] = e.longValue();
+	    }
 	    return ret;
 	}
 	
 	private float[] toFloatArray(List<Float> list)  {
 		float[] ret = new float[list.size()];
 	    int i = 0;
-	    for (Float e : list)  
+	    for (Float e : list) {
 	        ret[i++] = e.floatValue();
+	    }
 	    return ret;
 	}
 	
 	private double[] toDoubleArray(List<Double> list)  {
 		double[] ret = new double[list.size()];
 	    int i = 0;
-	    for (Double e : list)  
+	    for (Double e : list) {
 	        ret[i++] = e.doubleValue();
+	    }
 	    return ret;
 	}
 	
 	private char[] toCharArray(List<Character> list)  {
 		char[] ret = new char[list.size()];
 	    int i = 0;
-	    for (Character e : list)  
+	    for (Character e : list) {
 	        ret[i++] = e.charValue();
+	    }
 	    return ret;
 	}
 	
 	private boolean[] toBooleanArray(List<Boolean> list)  {
 		boolean[] ret = new boolean[list.size()];
 	    int i = 0;
-	    for (Boolean e : list)  
+	    for (Boolean e : list) {
 	        ret[i++] = e.booleanValue();
+	    }
 	    return ret;
 	}
 
@@ -331,12 +334,12 @@ public class JFStreamParser {
 			String iskey = jsreader.nextName();
 			Object objKey = null;
 			
-			if (iskey.equals("key")) {
+			if ("key".equals(iskey)) {
 				objKey = internalReadJFParam().getValue();
 			}
 			String isvalue = jsreader.nextName();
 			Object objValue = null;
-			if (isvalue.equals("value")) {
+			if ("value".equals(isvalue)) {
 				objValue = internalReadJFParam().getValue();
 			}
 			map.put(objKey,  objValue);
@@ -354,11 +357,11 @@ public class JFStreamParser {
 		String cl = null;
 		jsreader.beginObject();
 		String name = jsreader.nextName();
-		if(name.equals("clazz")) {
+		if("clazz".equals(name)) {
 			cl = jsreader.nextString();
 		}
 		name = jsreader.nextName();
-		if(name.equals("attr")) {
+		if("attr".equals(name)) {
 			jsreader.beginArray();
 			while(jsreader.hasNext()) {
 				attrs.add(internalReadJFParam());

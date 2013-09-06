@@ -193,7 +193,7 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 		
 		Class<?> superClass =  (Class<?>) cl.getSuperclass();
 		Field[] fields = cl.getDeclaredFields();
-		List<JFParam> params = new ArrayList<JFParam>();;
+		List<JFParam> params = new ArrayList<JFParam>();
 		for(int i = 0; i < fields.length; i++) {
 			String tag = fields[i].getName();
 			

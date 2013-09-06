@@ -27,7 +27,7 @@ public class JFTestData {
 		public static final Integer 	intTest 		= new Integer(5);
 		
 		/** The Constant longTest. */
-		public static final Long 		longTest 		= new Long(12344222122l);
+		public static final Long 		longTest 		= new Long(12344222122L);
 		
 		/** The Constant floatTest. */
 		public static final Float 		floatTest 		= new Float(3.23f);
@@ -39,7 +39,7 @@ public class JFTestData {
 		public static final Boolean 	boolTest  		= Boolean.TRUE;
 		
 		/** The Constant charTest. */
-public static final Character	charTest		= new Character('A');
+		public static final Character	charTest		= new Character('A');
 		
 		/** The Constant dateTest. */
 		public static final Date		dateTest		= new Date(1329685550793L);
@@ -86,7 +86,7 @@ public static final Character	charTest		= new Character('A');
 //
 
 		/** The Constant complexBeanTest. */
-public static final TestComplexBean 	complexBeanTest		= new TestComplexBean();
+		public static final TestComplexBean 	complexBeanTest		= new TestComplexBean();
 		
 		/** The Constant compoundBeanTest. */
 		public static final TestCompoundBean 	compoundBeanTest	= new TestCompoundBean();
@@ -98,6 +98,10 @@ public static final TestComplexBean 	complexBeanTest		= new TestComplexBean();
 		private static List<String>					listTest	= null;
 		private static HashMap<String, String>		mapTest		= null;
 		private static Hashtable<String, String>	tableTest	= null;
+
+		private JFTestData() {
+			
+		}
 		
 		/**
 		 * Gets the string.
