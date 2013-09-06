@@ -302,8 +302,8 @@
 <th>Errors</th>
 <th>Missing Classes</th></tr>
 <tr class="b">
-<td>12</td>
-<td>5</td>
+<td>13</td>
+<td>4</td>
 <td>0</td>
 <td>0</td></tr></table></div>
 <div class="section">
@@ -314,15 +314,15 @@
 <th>Bugs</th></tr>
 <tr class="b">
 <td><a href="#org.fringe.jf.json.internal.parser.JFParamParser">org.fringe.jf.json.internal.parser.JFParamParser</a></td>
-<td>2</td></tr>
-<tr class="a">
-<td><a href="#org.fringe.jf.json.internal.parser.JFStreamParser">org.fringe.jf.json.internal.parser.JFStreamParser</a></td>
 <td>1</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.fringe.jf.json.internal.serializer.JFParamSerializer">org.fringe.jf.json.internal.serializer.JFParamSerializer</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.fringe.jf.json.internal.serializer.JFStreamSerializer">org.fringe.jf.json.internal.serializer.JFStreamSerializer</a></td>
+<td>1</td></tr>
+<tr class="a">
+<td><a href="#org.fringe.jf.json.internal.util.JFSonUtil">org.fringe.jf.json.internal.util.JFSonUtil</a></td>
 <td>1</td></tr></table></div><a name="org.fringe.jf.json.internal.parser.JFParamParser"></a>
 <div class="section">
 <h3>org.fringe.jf.json.internal.parser.JFParamParser<a name="org.fringe.jf.json.internal.parser.JFParamParser"></a></h3>
@@ -338,57 +338,51 @@
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_NUMBER_CTOR">DM_NUMBER_CTOR</a></td>
 <td><a href="./xref/org/fringe/jf/json/internal/parser/JFParamParser.html#88">88</a></td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>Exception is caught when Exception is not thrown in org.fringe.jf.json.internal.parser.JFParamParser.getObject(String, List)</td>
-<td>STYLE</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
-<td><a href="./xref/org/fringe/jf/json/internal/parser/JFParamParser.html#297">297</a></td>
-<td>Medium</td></tr></table></div><a name="org.fringe.jf.json.internal.parser.JFStreamParser"></a>
-<div class="section">
-<h3>org.fringe.jf.json.internal.parser.JFStreamParser<a name="org.fringe.jf.json.internal.parser.JFStreamParser"></a></h3>
-<table border="0" class="table table-striped">
-<tr class="a">
-<th>Bug</th>
-<th>Category</th>
-<th>Details</th>
-<th>Line</th>
-<th>Priority</th></tr>
-<tr class="b">
-<td>Exception is caught when Exception is not thrown in org.fringe.jf.json.internal.parser.JFStreamParser.getObject(String, List)</td>
-<td>STYLE</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
-<td><a href="./xref/org/fringe/jf/json/internal/parser/JFStreamParser.html#406">406</a></td>
 <td>Medium</td></tr></table></div><a name="org.fringe.jf.json.internal.serializer.JFParamSerializer"></a>
 <div class="section">
 <h3>org.fringe.jf.json.internal.serializer.JFParamSerializer<a name="org.fringe.jf.json.internal.serializer.JFParamSerializer"></a></h3>
 <table border="0" class="table table-striped">
-<tr class="a">
+<tr class="b">
 <th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th></tr>
-<tr class="b">
+<tr class="a">
 <td>org.fringe.jf.json.internal.serializer.JFParamSerializer.serialize(JFParam, Type, JsonSerializationContext) makes inefficient use of keySet iterator instead of entrySet iterator</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#WMI_WRONG_MAP_ITERATOR">WMI_WRONG_MAP_ITERATOR</a></td>
-<td><a href="./xref/org/fringe/jf/json/internal/serializer/JFParamSerializer.html#128">128</a></td>
+<td><a href="./xref/org/fringe/jf/json/internal/serializer/JFParamSerializer.html#127">127</a></td>
 <td>Medium</td></tr></table></div><a name="org.fringe.jf.json.internal.serializer.JFStreamSerializer"></a>
 <div class="section">
 <h3>org.fringe.jf.json.internal.serializer.JFStreamSerializer<a name="org.fringe.jf.json.internal.serializer.JFStreamSerializer"></a></h3>
 <table border="0" class="table table-striped">
-<tr class="a">
+<tr class="b">
 <th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th></tr>
-<tr class="b">
+<tr class="a">
 <td>org.fringe.jf.json.internal.serializer.JFStreamSerializer.writeValue(int, Object) makes inefficient use of keySet iterator instead of entrySet iterator</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#WMI_WRONG_MAP_ITERATOR">WMI_WRONG_MAP_ITERATOR</a></td>
-<td><a href="./xref/org/fringe/jf/json/internal/serializer/JFStreamSerializer.html#165">165</a></td>
+<td><a href="./xref/org/fringe/jf/json/internal/serializer/JFStreamSerializer.html#163">163</a></td>
+<td>Medium</td></tr></table></div><a name="org.fringe.jf.json.internal.util.JFSonUtil"></a>
+<div class="section">
+<h3>org.fringe.jf.json.internal.util.JFSonUtil<a name="org.fringe.jf.json.internal.util.JFSonUtil"></a></h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th></tr>
+<tr class="a">
+<td>Exception is caught when Exception is not thrown in org.fringe.jf.json.internal.util.JFSonUtil.getObject(String, List)</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
+<td><a href="./xref/org/fringe/jf/json/internal/util/JFSonUtil.html#31">31</a></td>
 <td>Medium</td></tr></table></div>
                   </div>
             </div>

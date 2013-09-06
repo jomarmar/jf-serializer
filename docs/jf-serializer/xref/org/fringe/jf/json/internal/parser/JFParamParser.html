@@ -16,20 +16,20 @@
 <a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">package</strong> org.fringe.jf.json.internal.parser;
 <a class="jxr_linenumber" name="7" href="#7">7</a>   
 <a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> java.lang.reflect.Array;
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> java.lang.reflect.Method;
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.Type;
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> java.text.SimpleDateFormat;
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">import</strong> java.util.Hashtable;
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> java.util.Iterator;
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
-<a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">import</strong> java.util.Vector;
-<a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.objects.JFParam;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.util.Base64;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.util.JFDataTypes;
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> java.lang.reflect.Type;
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> java.text.SimpleDateFormat;
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> java.util.Hashtable;
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">import</strong> java.util.Iterator;
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Vector;
+<a class="jxr_linenumber" name="18" href="#18">18</a>  
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.objects.JFParam;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.util.Base64;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.util.JFDataTypes;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.fringe.jf.json.internal.util.JFSonUtil;
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="25" href="#25">25</a>  
@@ -221,7 +221,7 @@
 <a class="jxr_linenumber" name="211" href="#211">211</a> 			JFParam param = (JFParam) parser.parse(elem.toString());
 <a class="jxr_linenumber" name="212" href="#212">212</a> 			p.add(param);
 <a class="jxr_linenumber" name="213" href="#213">213</a> 		}
-<a class="jxr_linenumber" name="214" href="#214">214</a> 		<strong class="jxr_keyword">return</strong> getObject(cl, p);
+<a class="jxr_linenumber" name="214" href="#214">214</a> 		<strong class="jxr_keyword">return</strong> JFSonUtil.getObject(cl, p);
 <a class="jxr_linenumber" name="215" href="#215">215</a> 		
 <a class="jxr_linenumber" name="216" href="#216">216</a> 	}
 <a class="jxr_linenumber" name="217" href="#217">217</a> 	
@@ -283,68 +283,68 @@
 <a class="jxr_linenumber" name="273" href="#273">273</a> 	}
 <a class="jxr_linenumber" name="274" href="#274">274</a> 	
 <a class="jxr_linenumber" name="275" href="#275">275</a> 	
-<a class="jxr_linenumber" name="276" href="#276">276</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="277" href="#277">277</a> <em class="jxr_javadoccomment">	 * Gets the object.</em>
-<a class="jxr_linenumber" name="278" href="#278">278</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="279" href="#279">279</a> <em class="jxr_javadoccomment">	 * @param clazz the clazz</em>
-<a class="jxr_linenumber" name="280" href="#280">280</a> <em class="jxr_javadoccomment">	 * @param attr the attr</em>
-<a class="jxr_linenumber" name="281" href="#281">281</a> <em class="jxr_javadoccomment">	 * @return the object</em>
-<a class="jxr_linenumber" name="282" href="#282">282</a> <em class="jxr_javadoccomment">	 * @throws Exception the exception</em>
-<a class="jxr_linenumber" name="283" href="#283">283</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="284" href="#284">284</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> Object getObject(String clazz, List&lt;JFParam&gt; attr) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="285" href="#285">285</a> 		<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="286" href="#286">286</a> 			
-<a class="jxr_linenumber" name="287" href="#287">287</a> 			
-<a class="jxr_linenumber" name="288" href="#288">288</a> 			Class&lt;?&gt; cl = Class.forName(clazz);
-<a class="jxr_linenumber" name="289" href="#289">289</a> 			Object pbi = cl.newInstance();
-<a class="jxr_linenumber" name="290" href="#290">290</a> 			<strong class="jxr_keyword">for</strong>(<strong class="jxr_keyword">int</strong> i = 0; i &lt; attr.size(); i++) {
-<a class="jxr_linenumber" name="291" href="#291">291</a> 				Object obj = toObject(attr.get(i));
-<a class="jxr_linenumber" name="292" href="#292">292</a> 
-<a class="jxr_linenumber" name="293" href="#293">293</a> 				<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="294" href="#294">294</a> 					Method m = cl.getMethod(<span class="jxr_string">"set"</span> + upFirst(attr.get(i).getName()), obj.getClass());
-<a class="jxr_linenumber" name="295" href="#295">295</a> 					m.invoke(pbi, obj);
-<a class="jxr_linenumber" name="296" href="#296">296</a> 					
-<a class="jxr_linenumber" name="297" href="#297">297</a> 				} <strong class="jxr_keyword">catch</strong>(Exception ex) {
-<a class="jxr_linenumber" name="298" href="#298">298</a> 					Method[] methods = cl.getMethods();
-<a class="jxr_linenumber" name="299" href="#299">299</a> 					Method meth = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="300" href="#300">300</a> 					<strong class="jxr_keyword">for</strong>(<strong class="jxr_keyword">int</strong> j = 0; j &lt; methods.length; j++) {
-<a class="jxr_linenumber" name="301" href="#301">301</a> 						<strong class="jxr_keyword">if</strong>(methods[j].getName().equals(<span class="jxr_string">"set"</span> + upFirst(attr.get(i).getName()))) {
-<a class="jxr_linenumber" name="302" href="#302">302</a> 							meth = methods[j];
-<a class="jxr_linenumber" name="303" href="#303">303</a> 							<strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="304" href="#304">304</a> 						}
-<a class="jxr_linenumber" name="305" href="#305">305</a> 					}
-<a class="jxr_linenumber" name="306" href="#306">306</a> 					<strong class="jxr_keyword">if</strong>(meth != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="307" href="#307">307</a> 						meth.invoke(pbi, obj);
-<a class="jxr_linenumber" name="308" href="#308">308</a> 					}
-<a class="jxr_linenumber" name="309" href="#309">309</a> 				}
-<a class="jxr_linenumber" name="310" href="#310">310</a> 			}
-<a class="jxr_linenumber" name="311" href="#311">311</a> 			<strong class="jxr_keyword">return</strong> pbi;
-<a class="jxr_linenumber" name="312" href="#312">312</a> 			
-<a class="jxr_linenumber" name="313" href="#313">313</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="314" href="#314">314</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> Exception(<span class="jxr_string">"Error returning object of type: "</span> + clazz, e);
-<a class="jxr_linenumber" name="315" href="#315">315</a> 			
-<a class="jxr_linenumber" name="316" href="#316">316</a> 		}
-<a class="jxr_linenumber" name="317" href="#317">317</a> 	}
-<a class="jxr_linenumber" name="318" href="#318">318</a> 	
-<a class="jxr_linenumber" name="319" href="#319">319</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="320" href="#320">320</a> <em class="jxr_javadoccomment">	 * To object.</em>
-<a class="jxr_linenumber" name="321" href="#321">321</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="322" href="#322">322</a> <em class="jxr_javadoccomment">	 * @param param the param</em>
-<a class="jxr_linenumber" name="323" href="#323">323</a> <em class="jxr_javadoccomment">	 * @return the object</em>
-<a class="jxr_linenumber" name="324" href="#324">324</a> <em class="jxr_javadoccomment">	 * @throws Exception the exception</em>
-<a class="jxr_linenumber" name="325" href="#325">325</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="326" href="#326">326</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> Object toObject(<a href="../../../../../../org/fringe/jf/json/internal/objects/JFParam.html">JFParam</a> param) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="327" href="#327">327</a> 		<strong class="jxr_keyword">return</strong> param.getValue();
-<a class="jxr_linenumber" name="328" href="#328">328</a> 	}
-<a class="jxr_linenumber" name="329" href="#329">329</a> 	
-<a class="jxr_linenumber" name="330" href="#330">330</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="331" href="#331">331</a> <em class="jxr_javadoccomment">	 * Internal method to get a camel string</em>
-<a class="jxr_linenumber" name="332" href="#332">332</a> <em class="jxr_javadoccomment">	 * @param s </em>
-<a class="jxr_linenumber" name="333" href="#333">333</a> <em class="jxr_javadoccomment">	 * @return camel string</em>
-<a class="jxr_linenumber" name="334" href="#334">334</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="335" href="#335">335</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String upFirst(String s) {
-<a class="jxr_linenumber" name="336" href="#336">336</a> 		<strong class="jxr_keyword">return</strong> (s.length() &gt; 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-<a class="jxr_linenumber" name="337" href="#337">337</a> 	}
+<a class="jxr_linenumber" name="276" href="#276">276</a> <em class="jxr_comment">//	</em><em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="277" href="#277">277</a> <em class="jxr_javadoccomment">//	 * Gets the object.</em>
+<a class="jxr_linenumber" name="278" href="#278">278</a> <em class="jxr_javadoccomment">//	 *</em>
+<a class="jxr_linenumber" name="279" href="#279">279</a> <em class="jxr_javadoccomment">//	 * @param clazz the clazz</em>
+<a class="jxr_linenumber" name="280" href="#280">280</a> <em class="jxr_javadoccomment">//	 * @param attr the attr</em>
+<a class="jxr_linenumber" name="281" href="#281">281</a> <em class="jxr_javadoccomment">//	 * @return the object</em>
+<a class="jxr_linenumber" name="282" href="#282">282</a> <em class="jxr_javadoccomment">//	 * @throws Exception the exception</em>
+<a class="jxr_linenumber" name="283" href="#283">283</a> <em class="jxr_javadoccomment">//	 */</em>
+<a class="jxr_linenumber" name="284" href="#284">284</a> <em class="jxr_comment">//	public final Object getObject(String clazz, List&lt;JFParam&gt; attr) throws Exception {</em>
+<a class="jxr_linenumber" name="285" href="#285">285</a> <em class="jxr_comment">//		try {</em>
+<a class="jxr_linenumber" name="286" href="#286">286</a> <em class="jxr_comment">//			</em>
+<a class="jxr_linenumber" name="287" href="#287">287</a> <em class="jxr_comment">//			</em>
+<a class="jxr_linenumber" name="288" href="#288">288</a> <em class="jxr_comment">//			Class&lt;?&gt; cl = Class.forName(clazz);</em>
+<a class="jxr_linenumber" name="289" href="#289">289</a> <em class="jxr_comment">//			Object pbi = cl.newInstance();</em>
+<a class="jxr_linenumber" name="290" href="#290">290</a> <em class="jxr_comment">//			for(int i = 0; i &lt; attr.size(); i++) {</em>
+<a class="jxr_linenumber" name="291" href="#291">291</a> <em class="jxr_comment">//				Object obj = toObject(attr.get(i));</em>
+<a class="jxr_linenumber" name="292" href="#292">292</a> <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="293" href="#293">293</a> <em class="jxr_comment">//				try {</em>
+<a class="jxr_linenumber" name="294" href="#294">294</a> <em class="jxr_comment">//					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());</em>
+<a class="jxr_linenumber" name="295" href="#295">295</a> <em class="jxr_comment">//					m.invoke(pbi, obj);</em>
+<a class="jxr_linenumber" name="296" href="#296">296</a> <em class="jxr_comment">//					</em>
+<a class="jxr_linenumber" name="297" href="#297">297</a> <em class="jxr_comment">//				} catch(Exception ex) {</em>
+<a class="jxr_linenumber" name="298" href="#298">298</a> <em class="jxr_comment">//					Method[] methods = cl.getMethods();</em>
+<a class="jxr_linenumber" name="299" href="#299">299</a> <em class="jxr_comment">//					Method meth = null;</em>
+<a class="jxr_linenumber" name="300" href="#300">300</a> <em class="jxr_comment">//					for(int j = 0; j &lt; methods.length; j++) {</em>
+<a class="jxr_linenumber" name="301" href="#301">301</a> <em class="jxr_comment">//						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {</em>
+<a class="jxr_linenumber" name="302" href="#302">302</a> <em class="jxr_comment">//							meth = methods[j];</em>
+<a class="jxr_linenumber" name="303" href="#303">303</a> <em class="jxr_comment">//							break;</em>
+<a class="jxr_linenumber" name="304" href="#304">304</a> <em class="jxr_comment">//						}</em>
+<a class="jxr_linenumber" name="305" href="#305">305</a> <em class="jxr_comment">//					}</em>
+<a class="jxr_linenumber" name="306" href="#306">306</a> <em class="jxr_comment">//					if(meth != null) {</em>
+<a class="jxr_linenumber" name="307" href="#307">307</a> <em class="jxr_comment">//						meth.invoke(pbi, obj);</em>
+<a class="jxr_linenumber" name="308" href="#308">308</a> <em class="jxr_comment">//					}</em>
+<a class="jxr_linenumber" name="309" href="#309">309</a> <em class="jxr_comment">//				}</em>
+<a class="jxr_linenumber" name="310" href="#310">310</a> <em class="jxr_comment">//			}</em>
+<a class="jxr_linenumber" name="311" href="#311">311</a> <em class="jxr_comment">//			return pbi;</em>
+<a class="jxr_linenumber" name="312" href="#312">312</a> <em class="jxr_comment">//			</em>
+<a class="jxr_linenumber" name="313" href="#313">313</a> <em class="jxr_comment">//		} catch (Exception e) {</em>
+<a class="jxr_linenumber" name="314" href="#314">314</a> <em class="jxr_comment">//			throw new Exception("Error returning object of type: " + clazz, e);</em>
+<a class="jxr_linenumber" name="315" href="#315">315</a> <em class="jxr_comment">//			</em>
+<a class="jxr_linenumber" name="316" href="#316">316</a> <em class="jxr_comment">//		}</em>
+<a class="jxr_linenumber" name="317" href="#317">317</a> <em class="jxr_comment">//	}</em>
+<a class="jxr_linenumber" name="318" href="#318">318</a> <em class="jxr_comment">//	</em>
+<a class="jxr_linenumber" name="319" href="#319">319</a> <em class="jxr_comment">//	</em><em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="320" href="#320">320</a> <em class="jxr_javadoccomment">//	 * To object.</em>
+<a class="jxr_linenumber" name="321" href="#321">321</a> <em class="jxr_javadoccomment">//	 *</em>
+<a class="jxr_linenumber" name="322" href="#322">322</a> <em class="jxr_javadoccomment">//	 * @param param the param</em>
+<a class="jxr_linenumber" name="323" href="#323">323</a> <em class="jxr_javadoccomment">//	 * @return the object</em>
+<a class="jxr_linenumber" name="324" href="#324">324</a> <em class="jxr_javadoccomment">//	 * @throws Exception the exception</em>
+<a class="jxr_linenumber" name="325" href="#325">325</a> <em class="jxr_javadoccomment">//	 */</em>
+<a class="jxr_linenumber" name="326" href="#326">326</a> <em class="jxr_comment">//	public final Object toObject(JFParam param) throws Exception {</em>
+<a class="jxr_linenumber" name="327" href="#327">327</a> <em class="jxr_comment">//		return param.getValue();</em>
+<a class="jxr_linenumber" name="328" href="#328">328</a> <em class="jxr_comment">//	}</em>
+<a class="jxr_linenumber" name="329" href="#329">329</a> <em class="jxr_comment">//	</em>
+<a class="jxr_linenumber" name="330" href="#330">330</a> <em class="jxr_comment">//	</em><em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="331" href="#331">331</a> <em class="jxr_javadoccomment">//	 * Internal method to get a camel string</em>
+<a class="jxr_linenumber" name="332" href="#332">332</a> <em class="jxr_javadoccomment">//	 * @param s </em>
+<a class="jxr_linenumber" name="333" href="#333">333</a> <em class="jxr_javadoccomment">//	 * @return camel string</em>
+<a class="jxr_linenumber" name="334" href="#334">334</a> <em class="jxr_javadoccomment">//	 */</em>
+<a class="jxr_linenumber" name="335" href="#335">335</a> <em class="jxr_comment">//	private final String upFirst(String s) {</em>
+<a class="jxr_linenumber" name="336" href="#336">336</a> <em class="jxr_comment">//		return (s.length() &gt; 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;</em>
+<a class="jxr_linenumber" name="337" href="#337">337</a> <em class="jxr_comment">//	}</em>
 <a class="jxr_linenumber" name="338" href="#338">338</a> 
 <a class="jxr_linenumber" name="339" href="#339">339</a> }
 </pre>

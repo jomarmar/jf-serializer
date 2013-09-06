@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.fringe.jf.json.internal.objects.JFObject
-	c29 [label=<<table title="org.fringe.jf.json.internal.objects.JFObject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFObject.html">
+	c32 [label=<<table title="org.fringe.jf.json.internal.objects.JFObject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFObject.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFObject </td></tr>
 		</table></td></tr>
@@ -26,7 +26,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./JFObject.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.fringe.jf.json.internal.objects.JFParam
-	c30 [label=<<table title="org.fringe.jf.json.internal.objects.JFParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParam.html">
+	c33 [label=<<table title="org.fringe.jf.json.internal.objects.JFParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParam.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFParam </td></tr>
 		</table></td></tr>

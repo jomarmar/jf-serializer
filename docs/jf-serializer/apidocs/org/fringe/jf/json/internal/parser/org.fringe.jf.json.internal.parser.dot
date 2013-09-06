@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.fringe.jf.json.internal.parser.JFStreamParser
-	c14 [label=<<table title="org.fringe.jf.json.internal.parser.JFStreamParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFStreamParser.html">
+	c16 [label=<<table title="org.fringe.jf.json.internal.parser.JFStreamParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFStreamParser.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFStreamParser </td></tr>
 		</table></td></tr>
@@ -25,7 +25,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./JFStreamParser.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.fringe.jf.json.internal.parser.JFParser
-	c15 [label=<<table title="org.fringe.jf.json.internal.parser.JFParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParser.html">
+	c17 [label=<<table title="org.fringe.jf.json.internal.parser.JFParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParser.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFParser </td></tr>
 		</table></td></tr>
@@ -38,7 +38,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./JFParser.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.fringe.jf.json.internal.parser.JFParamParser
-	c16 [label=<<table title="org.fringe.jf.json.internal.parser.JFParamParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParamParser.html">
+	c18 [label=<<table title="org.fringe.jf.json.internal.parser.JFParamParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParamParser.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFParamParser </td></tr>
 		</table></td></tr>
@@ -48,8 +48,6 @@ digraph G {
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="left" balign="left"> + JFParamParser() </td></tr>
 <tr><td align="left" balign="left"> + deserialize(json : JsonElement, type : Type, context : JsonDeserializationContext) : JFParam </td></tr>
-<tr><td align="left" balign="left"> + getObject(clazz : String, attr : List&lt;JFParam&gt;) : Object </td></tr>
-<tr><td align="left" balign="left"> + toObject(param : JFParam) : Object </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JFParamParser.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }

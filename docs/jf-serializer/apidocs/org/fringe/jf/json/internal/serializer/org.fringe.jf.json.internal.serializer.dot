@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.fringe.jf.json.internal.serializer.JFParamSerializer
-	c43 [label=<<table title="org.fringe.jf.json.internal.serializer.JFParamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParamSerializer.html">
+	c47 [label=<<table title="org.fringe.jf.json.internal.serializer.JFParamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFParamSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFParamSerializer </td></tr>
 		</table></td></tr>
@@ -23,7 +23,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./JFParamSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.fringe.jf.json.internal.serializer.JFStreamSerializer
-	c44 [label=<<table title="org.fringe.jf.json.internal.serializer.JFStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFStreamSerializer.html">
+	c48 [label=<<table title="org.fringe.jf.json.internal.serializer.JFStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFStreamSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFStreamSerializer </td></tr>
 		</table></td></tr>
@@ -38,7 +38,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./JFStreamSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.fringe.jf.json.internal.serializer.JFSerializer
-	c45 [label=<<table title="org.fringe.jf.json.internal.serializer.JFSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFSerializer.html">
+	c49 [label=<<table title="org.fringe.jf.json.internal.serializer.JFSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JFSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JFSerializer </td></tr>
 		</table></td></tr>
