@@ -5,8 +5,6 @@
  */
 package org.fringe.jf.json.internal.serializer;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +15,7 @@ import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
+import org.fringe.jf.json.internal.util.JFSonUtil;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -74,7 +73,7 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 				return obj;
 			case JFDataTypes.TYPE_OBJECT:
 			try {
-				obj.add("value", gson.toJsonTree(toJFObject(param.getValue())));
+				obj.add("value", gson.toJsonTree(JFSonUtil.toJFObject(param.getValue())));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -172,7 +171,7 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 			int len = obj.length;
 			JFObject[] objArray = new JFObject[len];
 			for(int i = 0; i < obj.length; i++) {
-				objArray[i] = toJFObject(obj[i]);
+				objArray[i] = JFSonUtil.toJFObject(obj[i]);
 			}
 			return objArray;
 		} else {
@@ -183,61 +182,61 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 	
 	
 	
-	private final JFObject toJFObject(Object v) throws Exception {
-		if (v instanceof JFObject) {
-			return (JFObject) v;
-		}
-		String name = v.getClass().getName();
-	
-		Class<?> cl = Class.forName(name);
-		
-		Class<?> superClass =  (Class<?>) cl.getSuperclass();
-		Field[] fields = cl.getDeclaredFields();
-		List<JFParam> params = new ArrayList<JFParam>();
-		for(int i = 0; i < fields.length; i++) {
-			String tag = fields[i].getName();
-			
-			Method meth = null;
-			try {
-				meth =  cl.getMethod("get" + upFirst(fields[i].getName()), new Class[0]);
-			} catch(NoSuchMethodException ex) {
-				try {
-					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
-				} catch(NoSuchMethodException ex1) {
-					System.out.println("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
-					continue;
-				}
-				
-			}
-			Object obj = meth.invoke(v, new Object[0]);
-			params.add(new JFParam(tag, obj));
-		}
-		if(superClass != null) {
-			Field[] sfields = superClass.getDeclaredFields();
-			for(int i = 0; i < sfields.length; i++) {
-				String tag = sfields[i].getName();
-				Method meth = null;
-				try {
-					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()), new Class[0]);
-				} catch(NoSuchMethodException ex) {
-					try {
-					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
-					} catch(NoSuchMethodException ex1) {
-						System.out.println("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
-						continue;
-					}
-				}
-				Object obj = meth.invoke(v, new Object[0]);
-				params.add(new JFParam(tag, obj));
-			}
-		}
-		
-		return new JFObject(name, params);
-	}
-	
-	private final String upFirst(String s) {
-		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-	}
+//	private final JFObject toJFObject(Object v) throws Exception {
+//		if (v instanceof JFObject) {
+//			return (JFObject) v;
+//		}
+//		String name = v.getClass().getName();
+//	
+//		Class<?> cl = Class.forName(name);
+//		
+//		Class<?> superClass =  (Class<?>) cl.getSuperclass();
+//		Field[] fields = cl.getDeclaredFields();
+//		List<JFParam> params = new ArrayList<JFParam>();
+//		for(int i = 0; i < fields.length; i++) {
+//			String tag = fields[i].getName();
+//			
+//			Method meth = null;
+//			try {
+//				meth =  cl.getMethod("get" + upFirst(fields[i].getName()), new Class[0]);
+//			} catch(NoSuchMethodException ex) {
+//				try {
+//					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
+//				} catch(NoSuchMethodException ex1) {
+//					System.out.println("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
+//					continue;
+//				}
+//				
+//			}
+//			Object obj = meth.invoke(v, new Object[0]);
+//			params.add(new JFParam(tag, obj));
+//		}
+//		if(superClass != null) {
+//			Field[] sfields = superClass.getDeclaredFields();
+//			for(int i = 0; i < sfields.length; i++) {
+//				String tag = sfields[i].getName();
+//				Method meth = null;
+//				try {
+//					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()), new Class[0]);
+//				} catch(NoSuchMethodException ex) {
+//					try {
+//					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
+//					} catch(NoSuchMethodException ex1) {
+//						System.out.println("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
+//						continue;
+//					}
+//				}
+//				Object obj = meth.invoke(v, new Object[0]);
+//				params.add(new JFParam(tag, obj));
+//			}
+//		}
+//		
+//		return new JFObject(name, params);
+//	}
+//	
+//	private final String upFirst(String s) {
+//		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
+//	}
 	
 
 }

@@ -9,9 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +17,7 @@ import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
+import org.fringe.jf.json.internal.util.JFSonUtil;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -188,7 +186,7 @@ public class JFStreamSerializer {
 	}
 	
 	private void writeJFObject(Object obj) throws Exception {
-		JFObject jfobj = toJFObject(obj);
+		JFObject jfobj = JFSonUtil.toJFObject(obj);
 		jswriter.name("value");
 		jswriter.beginObject();
 		jswriter.name("clazz").value(jfobj.getClazz());
@@ -221,67 +219,67 @@ public class JFStreamSerializer {
 		
 	}
 
-	/**
-	 * Transforms any {@link java.lang.Object} into a {@link JFObject}
-	 * @param v object to be transformed
-	 * @return a JFObject
-	 * @throws Exception if v cannot be converted into a {@link JFObject}
-	 */
-	private final JFObject toJFObject(Object v) throws Exception {
-		if(v instanceof JFObject) {
-			return (JFObject)v;
-		}
-		String name = v.getClass().getName();
-	
-		Class<?> cl = Class.forName(name);
-		
-		Class<?> superClass =  (Class<?>) cl.getSuperclass();
-		Field[] fields = cl.getDeclaredFields();
-		List<JFParam> params = new ArrayList<JFParam>();
-		for(int i = 0; i < fields.length; i++) {
-			String tag = fields[i].getName();
-			
-			Method meth = null;
-			try {
-				meth =  cl.getMethod("get" + upFirst(fields[i].getName()), new Class[0]);
-			} catch(NoSuchMethodException ex) {
-				try {
-					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
-				} catch(NoSuchMethodException ex1) {
-					System.out.println("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
-					continue;
-				}
-				
-			}
-			Object obj = meth.invoke(v, new Object[0]);
-			params.add(new JFParam(tag, obj));
-		}
-		if(superClass != null) {
-			Field[] sfields = superClass.getDeclaredFields();
-			for(int i = 0; i < sfields.length; i++) {
-				String tag = sfields[i].getName();
-				Method meth = null;
-				try {
-					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()), new Class[0]);
-				} catch(NoSuchMethodException ex) {
-					try {
-					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
-					} catch(NoSuchMethodException ex1) {
-						System.out.println("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
-						continue;
-					}
-				}
-				Object obj = meth.invoke(v, new Object[0]);
-				params.add(new JFParam(tag, obj));
-			}
-		}
-		
-		return new JFObject(name, params);
-	}
-	
-	private final String upFirst(String s) {
-		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-	}
-	
+//	/**
+//	 * Transforms any {@link java.lang.Object} into a {@link JFObject}
+//	 * @param v object to be transformed
+//	 * @return a JFObject
+//	 * @throws Exception if v cannot be converted into a {@link JFObject}
+//	 */
+//	private final JFObject toJFObject(Object v) throws Exception {
+//		if(v instanceof JFObject) {
+//			return (JFObject)v;
+//		}
+//		String name = v.getClass().getName();
+//	
+//		Class<?> cl = Class.forName(name);
+//		
+//		Class<?> superClass =  (Class<?>) cl.getSuperclass();
+//		Field[] fields = cl.getDeclaredFields();
+//		List<JFParam> params = new ArrayList<JFParam>();
+//		for(int i = 0; i < fields.length; i++) {
+//			String tag = fields[i].getName();
+//			
+//			Method meth = null;
+//			try {
+//				meth =  cl.getMethod("get" + upFirst(fields[i].getName()), new Class[0]);
+//			} catch(NoSuchMethodException ex) {
+//				try {
+//					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
+//				} catch(NoSuchMethodException ex1) {
+//					System.out.println("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
+//					continue;
+//				}
+//				
+//			}
+//			Object obj = meth.invoke(v, new Object[0]);
+//			params.add(new JFParam(tag, obj));
+//		}
+//		if(superClass != null) {
+//			Field[] sfields = superClass.getDeclaredFields();
+//			for(int i = 0; i < sfields.length; i++) {
+//				String tag = sfields[i].getName();
+//				Method meth = null;
+//				try {
+//					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()), new Class[0]);
+//				} catch(NoSuchMethodException ex) {
+//					try {
+//					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
+//					} catch(NoSuchMethodException ex1) {
+//						System.out.println("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
+//						continue;
+//					}
+//				}
+//				Object obj = meth.invoke(v, new Object[0]);
+//				params.add(new JFParam(tag, obj));
+//			}
+//		}
+//		
+//		return new JFObject(name, params);
+//	}
+//	
+//	private final String upFirst(String s) {
+//		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
+//	}
+//	
 	
 }

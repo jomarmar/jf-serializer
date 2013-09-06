@@ -6,7 +6,6 @@
 package org.fringe.jf.json.internal.parser;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import java.util.Vector;
 import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
+import org.fringe.jf.json.internal.util.JFSonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -211,7 +211,7 @@ public class JFParamParser implements JsonDeserializer<JFParam> {
 			JFParam param = (JFParam) parser.parse(elem.toString());
 			p.add(param);
 		}
-		return getObject(cl, p);
+		return JFSonUtil.getObject(cl, p);
 		
 	}
 	
@@ -273,67 +273,67 @@ public class JFParamParser implements JsonDeserializer<JFParam> {
 	}
 	
 	
-	/**
-	 * Gets the object.
-	 *
-	 * @param clazz the clazz
-	 * @param attr the attr
-	 * @return the object
-	 * @throws Exception the exception
-	 */
-	public final Object getObject(String clazz, List<JFParam> attr) throws Exception {
-		try {
-			
-			
-			Class<?> cl = Class.forName(clazz);
-			Object pbi = cl.newInstance();
-			for(int i = 0; i < attr.size(); i++) {
-				Object obj = toObject(attr.get(i));
-
-				try {
-					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
-					m.invoke(pbi, obj);
-					
-				} catch(Exception ex) {
-					Method[] methods = cl.getMethods();
-					Method meth = null;
-					for(int j = 0; j < methods.length; j++) {
-						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
-							meth = methods[j];
-							break;
-						}
-					}
-					if(meth != null) {
-						meth.invoke(pbi, obj);
-					}
-				}
-			}
-			return pbi;
-			
-		} catch (Exception e) {
-			throw new Exception("Error returning object of type: " + clazz, e);
-			
-		}
-	}
-	
-	/**
-	 * To object.
-	 *
-	 * @param param the param
-	 * @return the object
-	 * @throws Exception the exception
-	 */
-	public final Object toObject(JFParam param) throws Exception {
-		return param.getValue();
-	}
-	
-	/**
-	 * Internal method to get a camel string
-	 * @param s 
-	 * @return camel string
-	 */
-	private final String upFirst(String s) {
-		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-	}
+//	/**
+//	 * Gets the object.
+//	 *
+//	 * @param clazz the clazz
+//	 * @param attr the attr
+//	 * @return the object
+//	 * @throws Exception the exception
+//	 */
+//	public final Object getObject(String clazz, List<JFParam> attr) throws Exception {
+//		try {
+//			
+//			
+//			Class<?> cl = Class.forName(clazz);
+//			Object pbi = cl.newInstance();
+//			for(int i = 0; i < attr.size(); i++) {
+//				Object obj = toObject(attr.get(i));
+//
+//				try {
+//					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
+//					m.invoke(pbi, obj);
+//					
+//				} catch(Exception ex) {
+//					Method[] methods = cl.getMethods();
+//					Method meth = null;
+//					for(int j = 0; j < methods.length; j++) {
+//						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
+//							meth = methods[j];
+//							break;
+//						}
+//					}
+//					if(meth != null) {
+//						meth.invoke(pbi, obj);
+//					}
+//				}
+//			}
+//			return pbi;
+//			
+//		} catch (Exception e) {
+//			throw new Exception("Error returning object of type: " + clazz, e);
+//			
+//		}
+//	}
+//	
+//	/**
+//	 * To object.
+//	 *
+//	 * @param param the param
+//	 * @return the object
+//	 * @throws Exception the exception
+//	 */
+//	public final Object toObject(JFParam param) throws Exception {
+//		return param.getValue();
+//	}
+//	
+//	/**
+//	 * Internal method to get a camel string
+//	 * @param s 
+//	 * @return camel string
+//	 */
+//	private final String upFirst(String s) {
+//		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
+//	}
 
 }

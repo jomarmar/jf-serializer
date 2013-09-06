@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +20,7 @@ import java.util.Vector;
 import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
+import org.fringe.jf.json.internal.util.JFSonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -371,7 +371,7 @@ public class JFStreamParser {
 		}
 		jsreader.endObject();
 		
-		return getObject(cl, attrs);
+		return JFSonUtil.getObject(cl, attrs);
 		
 	}
 	
@@ -390,47 +390,47 @@ public class JFStreamParser {
 	}
 	
 	
-	private final Object getObject(String clazz, List<JFParam> attr) throws Exception {
-		try {
-			
-			
-			Class<?> cl = Class.forName(clazz);
-			Object pbi = cl.newInstance();
-			for(int i = 0; i < attr.size(); i++) {
-				Object obj = toObject(attr.get(i));
-
-				try {
-					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
-					m.invoke(pbi, obj);
-					
-				} catch(Exception ex) {
-					Method[] methods = cl.getMethods();
-					Method meth = null;
-					for(int j = 0; j < methods.length; j++) {
-						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
-							meth = methods[j];
-							break;
-						}
-					}
-					if(meth != null) {
-						meth.invoke(pbi, obj);
-					}
-				}
-			}
-			return pbi;
-			
-		} catch (Exception e) {
-			throw new Exception("Error returning object of type: " + clazz, e);
-			
-		}
-	}
-	
-	private final Object toObject(JFParam param) throws Exception {
-		return param.getValue();
-	}
-	
-	private final String upFirst(String s) {
-		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-	}
+//	private final Object getObject(String clazz, List<JFParam> attr) throws Exception {
+//		try {
+//			
+//			
+//			Class<?> cl = Class.forName(clazz);
+//			Object pbi = cl.newInstance();
+//			for(int i = 0; i < attr.size(); i++) {
+//				Object obj = toObject(attr.get(i));
+//
+//				try {
+//					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
+//					m.invoke(pbi, obj);
+//					
+//				} catch(Exception ex) {
+//					Method[] methods = cl.getMethods();
+//					Method meth = null;
+//					for(int j = 0; j < methods.length; j++) {
+//						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
+//							meth = methods[j];
+//							break;
+//						}
+//					}
+//					if(meth != null) {
+//						meth.invoke(pbi, obj);
+//					}
+//				}
+//			}
+//			return pbi;
+//			
+//		} catch (Exception e) {
+//			throw new Exception("Error returning object of type: " + clazz, e);
+//			
+//		}
+//	}
+//	
+//	private final Object toObject(JFParam param) throws Exception {
+//		return param.getValue();
+//	}
+//	
+//	private final String upFirst(String s) {
+//		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
+//	}
 
 }
