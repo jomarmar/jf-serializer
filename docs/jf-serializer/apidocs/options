@@ -1,0 +1,29 @@
+-classpath
+'/home/jmartinez/projects/github-projects/jf-serializer/target/classes:/home/jmartinez/.m2/repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar:/home/jmartinez/.m2/repository/org/osgi/org.osgi.core/4.3.0/org.osgi.core-4.3.0.jar:/home/jmartinez/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:/home/jmartinez/.m2/repository/org/osgi/org.osgi.compendium/4.3.0/org.osgi.compendium-4.3.0.jar'
+-doclet
+'org.umlgraph.doclet.UmlGraphDoc'
+-docletpath
+'/home/jmartinez/.m2/repository/org/umlgraph/umlgraph/5.6/umlgraph-5.6.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/jmartinez/projects/github-projects/jf-serializer/src/main/java'
+-views -all
+-author
+-bottom
+'Copyright &#169; 2013. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/jmartinez/projects/github-projects/jf-serializer/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'jf-serializer 1.0.0-SNAPSHOT API'
+-linkoffline
+'http://download.oracle.com/javase/6/docs/api' '/home/jmartinez/projects/github-projects/jf-serializer/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'jf-serializer 1.0.0-SNAPSHOT API'
