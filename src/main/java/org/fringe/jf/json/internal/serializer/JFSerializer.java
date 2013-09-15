@@ -18,19 +18,21 @@ import com.google.gson.GsonBuilder;
 public class JFSerializer {
 
 	private static GsonBuilder gson_builder = new GsonBuilder();
-	private Gson gson = null;
+	
 	
 	static { 
 		gson_builder.serializeNulls();
 		gson_builder.setDateFormat("yyyyMMddHHmmss.SSS-Z");
 		gson_builder.registerTypeAdapter(JFParam.class, new JFParamSerializer());
 	}
+	
+	private final Gson gson = gson_builder.create();
 		
 	/**
 	 * Instantiates a new JF serializer.
 	 */
 	public JFSerializer() {
-		gson = gson_builder.create();
+		//gson = gson_builder.create();
 	}
 	
 	/**

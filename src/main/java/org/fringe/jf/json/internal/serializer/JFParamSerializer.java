@@ -16,6 +16,8 @@ import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
 import org.fringe.jf.json.internal.util.JFSonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,6 +33,7 @@ import com.google.gson.JsonSerializer;
  */
 public class JFParamSerializer implements JsonSerializer<JFParam> {
 
+	private static final Logger logger = LoggerFactory.getLogger(JFParamSerializer.class);
 	
 	private static Gson gson = null;
 	static {
@@ -75,8 +78,7 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 			try {
 				obj.add("value", gson.toJsonTree(JFSonUtil.toJFObject(param.getValue())));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("TYPE_OBJECT: " + e.toString(), e);
 			}
 				return obj;
 			case JFDataTypes.TYPE_OBJECTARRAY:
@@ -86,8 +88,7 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 			try {
 				obj.add("value", gson.toJsonTree(toJFObjectArray(param.getValue())));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("TYPE_OBJECTARRAY: " + e.toString(), e);
 			}
 				return obj;
 			case JFDataTypes.TYPE_LIST:
@@ -101,8 +102,7 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 						JFParam p = new JFParam("elem" + (i++), iter.next());
 						list.add(p);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error("TYPE_VECTOR (Element): " + e.toString(), e);
 					}
 					
 				}
@@ -110,50 +110,40 @@ public class JFParamSerializer implements JsonSerializer<JFParam> {
 				try {
 					obj.add("value", gson.toJsonTree(list));
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("TYPE_VECTOR: " + e.toString(), e);
 				}
 				return obj;
 			case JFDataTypes.TYPE_TABLE:
 			case JFDataTypes.TYPE_MAP:
 				JsonArray array = new JsonArray();
 				Map<?, ?> origMap = (Map<?, ?>) param.getValue();
-				Iterator<?> iterMap = origMap.keySet().iterator();
-				int j = 0;
-				while(iterMap.hasNext()) {
+				int j=0;
+				for(Map.Entry<?, ?> entry : origMap.entrySet()) {
 					try {
-						Object key = iterMap.next();
-						JFParam keyParam = new JFParam("key" + (j), key);
-						JFParam valParam = new JFParam("val" + (j), origMap.get(key));
+						JFParam keyParam = new JFParam("key" + (j), entry.getKey());
+						JFParam valParam = new JFParam("val" + (j), entry.getValue());
 						JsonObject jobj = new JsonObject();
 						jobj.add("key", gson.toJsonTree(keyParam));
 						jobj.add("value", gson.toJsonTree(valParam));
 						array.add(jobj);
 						j++;
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error("TYPE_MAP (Param): " + e.toString(), e);
 					}
-					
 				}
 								
 				try {
 					obj.add("value", array);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("TYPE_MAP: " + e.toString(), e);
 				}
 				return obj;
 			default:
 				
-//				String arrayClass = param.getValue().getClass().getName();
-//				obj.addProperty("objType", arrayClass.substring(2, arrayClass.length()-1));
-				
 			try {
 				obj.add("value", gson.toJsonTree(param.getValue()));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("INVALID TYPE: " + param.getType(), e);
 			}
 			
 		}

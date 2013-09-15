@@ -15,12 +15,15 @@ import org.fringe.jf.test.core.json.data.TestComplexBean;
 import org.fringe.jf.test.core.json.data.TestCompoundBean;
 import org.fringe.jf.test.core.json.data.TestSimpleBean;
 import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JFUnitAssert.
  */
 public class JFUnitAssert {
+	
+	private static final Logger logger = LoggerFactory.getLogger(JFUnitAssert.class);
 	
 	private JFUnitAssert() {
 		
@@ -317,7 +320,7 @@ public class JFUnitAssert {
 		 * End serialize.
 		 */
 		public static void endSerialize() {
-			System.out.println(mesg + "[SERIALIZE]: "
+			logger.debug(mesg + "[SERIALIZE]: "
 					+ (System.nanoTime() - startTime) + "("
 					+ (System.currentTimeMillis() - startTimeMS) + ")");
 		}
@@ -326,7 +329,7 @@ public class JFUnitAssert {
 		 * End parse.
 		 */
 		public static void endParse() {
-			System.out.println(mesg + "[PARSE]: "
+			logger.debug(mesg + "[PARSE]: "
 					+ (System.nanoTime() - startTime) + "("
 					+ (System.currentTimeMillis() - startTimeMS) + ")");
 		}

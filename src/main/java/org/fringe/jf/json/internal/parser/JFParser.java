@@ -17,7 +17,7 @@ import com.google.gson.GsonBuilder;
 public class JFParser {
 	
 	private static GsonBuilder gson_builder = new GsonBuilder();
-	private Gson gson = null;
+
 	
 	static { 
 		gson_builder.serializeNulls();
@@ -25,14 +25,12 @@ public class JFParser {
 		gson_builder.registerTypeAdapter(JFParam.class, new JFParamParser());
 		
 	}
+	private final Gson gson = gson_builder.create();
 		
 	/**
 	 * Instantiates a new JF parser.
 	 */
 	public JFParser() {
-		gson = gson_builder.create();
-		
-		
 	}
 	
 	/**

@@ -7,8 +7,12 @@ import java.util.List;
 
 import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class JFSonUtil {
+	
+	private static final Logger logger = LoggerFactory.getLogger(JFSonUtil.class);
 	
 	private JFSonUtil() {
 		
@@ -23,23 +27,22 @@ public final class JFSonUtil {
 			Object pbi = cl.newInstance();
 			for(int i = 0; i < attr.size(); i++) {
 				Object obj = toObject(attr.get(i));
-
+				
 				try {
 					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
 					m.invoke(pbi, obj);
-					
 				} catch(Exception ex) {
-					Method[] methods = cl.getMethods();
-					Method meth = null;
-					for(int j = 0; j < methods.length; j++) {
-						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
-							meth = methods[j];
-							break;
+						Method[] methods = cl.getMethods();
+						Method meth = null;
+						for(int j = 0; j < methods.length; j++) {
+							if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
+								meth = methods[j];
+								break;
+							}
 						}
-					}
-					if(meth != null) {
-						meth.invoke(pbi, obj);
-					}
+						if(meth != null) {
+							meth.invoke(pbi, obj);
+						}
 				}
 			}
 			return pbi;
@@ -72,7 +75,7 @@ public final class JFSonUtil {
 				try {
 					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
 				} catch(NoSuchMethodException ex1) {
-					System.out.println("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
+					logger.warn("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
 					continue;
 				}
 				
@@ -91,7 +94,7 @@ public final class JFSonUtil {
 					try {
 					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
 					} catch(NoSuchMethodException ex1) {
-						System.out.println("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
+						logger.warn("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
 						continue;
 					}
 				}

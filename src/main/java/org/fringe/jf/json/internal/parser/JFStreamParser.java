@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
@@ -142,7 +143,7 @@ public class JFStreamParser {
 					param.setValue(Base64.decode(jsreader.nextString()));
 					break;
 				case JFDataTypes.TYPE_DATE:
-					SimpleDateFormat format = new SimpleDateFormat(JFDataTypes.DATE_PATTERN);
+					SimpleDateFormat format = new SimpleDateFormat(JFDataTypes.DATE_PATTERN, Locale.getDefault());
 					param.setValue(format.parse(jsreader.nextString()));
 					break;
 				case JFDataTypes.TYPE_STRINGARRAY:

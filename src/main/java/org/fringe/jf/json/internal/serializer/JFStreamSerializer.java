@@ -18,6 +18,8 @@ import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
 import org.fringe.jf.json.internal.util.JFSonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,6 +30,9 @@ import com.google.gson.stream.JsonWriter;
  * The Class JFStreamSerializer.
  */
 public class JFStreamSerializer {
+	
+	private static final Logger logger = LoggerFactory.getLogger(JFStreamSerializer.class);
+	
 	private static Gson gson = null;
 	private JsonWriter jswriter = null;
 	
@@ -116,16 +121,14 @@ public class JFStreamSerializer {
 				try {
 					writeJFObject(obj);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("TYPE_OBJECT: " + e.toString(), e);
 				}
 				break;
 			case JFDataTypes.TYPE_OBJECTARRAY:
 			try {
 				writeJFObjectArray(obj);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("TYPE_OBJECTARRAY: " + e1.toString(), e1);
 			}
 				break;
 			case JFDataTypes.TYPE_LIST:
@@ -140,8 +143,7 @@ public class JFStreamSerializer {
 						JFParam p = new JFParam("elem" + (i++), iter.next());
 						internalWriteJFParam(p);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error("TYPE_VECTOR: " + e.toString(), e);
 					}
 					
 				}
@@ -153,24 +155,22 @@ public class JFStreamSerializer {
 				jswriter.name("value");
 				jswriter.beginArray();
 				Map<?, ?> origMap = (Map<?, ?>)obj;
-				Iterator<?> iterMap = origMap.keySet().iterator();
-				int j = 0;
-				while(iterMap.hasNext()) {
+				
+				int j=0;
+				for(Map.Entry<?, ?> entry : origMap.entrySet()) {
 					try {
 						jswriter.beginObject();
-						Object key = iterMap.next();
-						JFParam keyParam = new JFParam("key" + (j), key);
-						JFParam valParam = new JFParam("val" + (j), origMap.get(key));
+						//Object key = entry.next();
+						JFParam keyParam = new JFParam("key" + (j), entry.getKey());
+						JFParam valParam = new JFParam("val" + (j), entry.getValue());
 						jswriter.name("key");
 						internalWriteJFParam(keyParam);
 						jswriter.name("value");
 						internalWriteJFParam(valParam);
 						jswriter.endObject();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error("TYPE_MAP: " + e.toString(), e);
 					}
-					
 				}
 				jswriter.endArray();
 				break;

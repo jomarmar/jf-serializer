@@ -59,7 +59,7 @@ public class JFParam {
 	 * @param value the value
 	 * @throws Exception the exception
 	 */
-	public JFParam(String name, Object value) throws Exception {
+	public JFParam(String name, Object value) {
 		this.name = name;
 		if(value == null) {
 			this.type = JFDataTypes.TYPE_NULL;

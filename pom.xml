@@ -14,10 +14,10 @@
 	<description>Json serialization of Java Beans</description>
 	<url>https://github.com/jomarmar/jf-serializer</url>
 
-	<issueManagement>
+<!-- 	<issueManagement>
 		<url>https://github.com/jomarmar/jf-serializer/issues</url>
-		<system>GitHub Issues</system>
-	</issueManagement>
+		<system>GitHub</system>
+	</issueManagement> -->
 
 <!-- 	<licenses>
 		<license>
@@ -27,13 +27,13 @@
 		</license>
 	</licenses> -->
 
-	<scm>
+	<!-- <scm>
 		<url>https://github.com/jomarmar/jf-serializer</url>
 		<connection>scm:git:https://github.com/jomarmar/jf-serializer.git</connection>
 		<developerConnection>scm:git:git@github.com:jomarmar/jf-serializer.git</developerConnection>
-	</scm>
+	</scm> -->
 
-	<developers>
+	<!-- <developers>
 		<developer>
 			<id>jomarmar</id>
 			<name>J Martinez</name>
@@ -44,7 +44,7 @@
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
-	</developers>
+	</developers> -->
 
 	
 

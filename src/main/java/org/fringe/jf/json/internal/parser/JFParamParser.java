@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
@@ -50,11 +51,17 @@ public class JFParamParser implements JsonDeserializer<JFParam> {
 			logger.info("Name attribute is NULL");
 		}
 		
+		
+		
 		try {
 			return new JFParam(name, getValue(jsonObject));
-		} catch (Exception e) {
-			throw new JsonParseException(e.getCause().toString());
+		} catch(JsonParseException je) {
+			throw je;
+		
+	    }catch (Exception e) {
+			logger.error("Error creating JFParam: " + e.toString(), e);
 		}
+		return null;
 		
 	}
 	
@@ -85,7 +92,7 @@ public class JFParamParser implements JsonDeserializer<JFParam> {
 				
 			case JFDataTypes.TYPE_CHARACTER:
 				logger.debug("PRIMITIVE: " + obj.getAsJsonPrimitive("value").getAsString());
-				return new Character(obj.getAsJsonPrimitive("value").getAsString().charAt(0));
+				return Character.valueOf(obj.getAsJsonPrimitive("value").getAsString().charAt(0));
 				
 			case JFDataTypes.TYPE_BYTE:
 				logger.debug("PRIMITIVE: " + obj.getAsJsonPrimitive("value").getAsString());
@@ -101,7 +108,7 @@ public class JFParamParser implements JsonDeserializer<JFParam> {
 				
 			case JFDataTypes.TYPE_DATE:
 				logger.debug("PRIMITIVE: " + obj.getAsJsonPrimitive("value").getAsString());
-				SimpleDateFormat format = new SimpleDateFormat(JFDataTypes.DATE_PATTERN);
+				SimpleDateFormat format = new SimpleDateFormat(JFDataTypes.DATE_PATTERN, Locale.getDefault());
 				return format.parse(obj.getAsJsonPrimitive("value").getAsString());
 				
 			case JFDataTypes.TYPE_NULL:
