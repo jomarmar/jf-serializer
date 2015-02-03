@@ -5,6 +5,8 @@ reports/
 .settings/
 build.properties
 
+.idea
+
 META-INF/
 OSGI-INF/
 
