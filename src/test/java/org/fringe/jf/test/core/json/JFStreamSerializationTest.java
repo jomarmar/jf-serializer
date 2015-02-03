@@ -294,7 +294,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -317,7 +317,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -340,7 +340,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -363,7 +363,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -386,7 +386,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -409,7 +409,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -432,7 +432,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**
@@ -455,7 +455,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 
 	/**
@@ -478,7 +478,7 @@ public class JFStreamSerializationTest {
 		JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
 
 		JFUnitAssert.TimeEllapsed.endParse();
-		JFUnitAssert.assertJFParam(par, obj);
+		JFUnitAssert.assertJFParamArray(par, obj);
 	}
 	
 	/**

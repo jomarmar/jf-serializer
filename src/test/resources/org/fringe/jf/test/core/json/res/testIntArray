@@ -1,1 +1,1 @@
-{"name":"testIntArray","type":2000,"value":[0,1,2,3,4,5,6,7]}
+{"name":"testIntArray","type":5000,"arrayClass":"[I","value":[{"name":"e0","type":1001,"value":0},{"name":"e1","type":1001,"value":1},{"name":"e2","type":1001,"value":2},{"name":"e3","type":1001,"value":3},{"name":"e4","type":1001,"value":4},{"name":"e5","type":1001,"value":5},{"name":"e6","type":1001,"value":6},{"name":"e7","type":1001,"value":7}]}

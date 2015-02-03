@@ -1,1 +1,1 @@
-{"name":"testEmptyStringArray","type":2006,"value":[]}
+{"name":"testEmptyStringArray","type":5000,"arrayClass":"[Ljava.lang.String;","value":[]}

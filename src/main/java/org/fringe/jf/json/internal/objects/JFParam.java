@@ -5,7 +5,11 @@
  */
 package org.fringe.jf.json.internal.objects;
 
+import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
+import org.fringe.jf.json.internal.util.JFSonUtil;
+
+import java.util.*;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,15 +45,7 @@ public class JFParam {
 	 * @throws Exception the exception
 	 */
 	public JFParam(Object value) throws Exception {
-		this.name = null;
-		if(value == null) {
-			this.type = JFDataTypes.TYPE_NULL;
-		} else {
-			this.type = JFDataTypes.getJFType(value.getClass().getName());
-			
-		}
-		
-		this.value = value;
+		setJFParam(null, value);
 	}
 	
 	/**
@@ -59,17 +55,50 @@ public class JFParam {
 	 * @param value the value
 	 * @throws Exception the exception
 	 */
-	public JFParam(String name, Object value) {
-		this.name = name;
-		if(value == null) {
-			this.type = JFDataTypes.TYPE_NULL;
-		} else {
-			this.type = JFDataTypes.getJFType(value.getClass().getName());
-			
-		}
-		
-		this.value = value;
+	public JFParam(String name, Object value) throws Exception {
+		setJFParam(name, value);
 	}
+
+    private void setJFParam(String name, Object value) throws Exception {
+        this.name = name;
+        if(value == null) {
+            this.type = JFDataTypes.TYPE_NULL;
+        } else {
+            if(value.getClass().isArray()) {
+                if(value instanceof byte[] || value instanceof Byte[]) {
+                    this.type = JFDataTypes.TYPE_BASE64;
+                } else {
+                    this.type = JFDataTypes.TYPE_OBJECTARRAY;
+                }
+            } else {
+                this.type = JFDataTypes.getJFType(value.getClass().getName());
+            }
+
+        }
+
+        switch(this.type) {
+            case JFDataTypes.TYPE_BASE64:
+                this.value = Base64.encode((byte[]) value);
+                break;
+            case JFDataTypes.TYPE_OBJECTARRAY:
+                this.value = new JFParamArray(value);
+                break;
+            case JFDataTypes.TYPE_MAP:
+            case JFDataTypes.TYPE_TABLE:
+                this.value = getMapParams((Map<?, ?>) value);
+                break;
+            case JFDataTypes.TYPE_LIST:
+            case JFDataTypes.TYPE_VECTOR:
+                this.value = getListParams((List<?>) value);
+                break;
+            case JFDataTypes.TYPE_OBJECT:
+                this.value = JFSonUtil.toJFObject(value);
+                break;
+            default:
+                this.value = value;
+        }
+
+    }
 	
 	/**
 	 * Gets the name.
@@ -124,4 +153,33 @@ public class JFParam {
 	public void setValue(Object value) {
 		this.value = value;
 	}
+
+
+    private final List<JFParam> getListParams(List<?> val) throws Exception {
+        List<JFParam> res = new ArrayList<JFParam>();
+        int count = 0;
+        Iterator<?> iter = val.iterator();
+        while(iter.hasNext()) {
+            Object obj = iter.next();
+            JFParam pp = new JFParam("elem"+ count++, obj);
+            res.add(pp);
+        }
+        return res;
+    }
+
+    private final Map<JFParam, JFParam> getMapParams(Map<?,?> val) throws Exception {
+        Map<JFParam, JFParam> res = new LinkedHashMap<JFParam, JFParam>();
+        int count = 0;
+        Iterator<?> iter = val.keySet().iterator();
+        while(iter.hasNext()) {
+            Object key = iter.next();
+            Object value = val.get(key);
+            JFParam ppKey = new JFParam("key"+ count, key);
+            JFParam ppVal = new JFParam("value"+ count, value);
+            res.put(ppKey, ppVal);
+            count++;
+        }
+        return res;
+    }
+
 }

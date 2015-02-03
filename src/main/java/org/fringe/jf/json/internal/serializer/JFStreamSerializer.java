@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
+import org.fringe.jf.json.internal.objects.JFParamArray;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
 import org.fringe.jf.json.internal.util.JFSonUtil;
@@ -114,7 +115,7 @@ public class JFStreamSerializer {
 	private void writeValue(int type, Object obj) throws IOException {
 		switch(type) {
 			case JFDataTypes.TYPE_BASE64:
-				jswriter.name("value").value(Base64.encode((byte[])obj));
+				jswriter.name("value").value((String)obj);
 				break;
 			case JFDataTypes.TYPE_OBJECT:
 				
@@ -126,22 +127,22 @@ public class JFStreamSerializer {
 				break;
 			case JFDataTypes.TYPE_OBJECTARRAY:
 			try {
-				writeJFObjectArray(obj);
+				writeJFObjectArray((JFParamArray)obj);
 			} catch (Exception e1) {
 				logger.error("TYPE_OBJECTARRAY: " + e1.toString(), e1);
 			}
 				break;
 			case JFDataTypes.TYPE_LIST:
 			case JFDataTypes.TYPE_VECTOR:
-				List<Object> orig = (List<Object>)obj;
-				Iterator<Object> iter = orig.iterator();
+				List<JFParam> orig = (List<JFParam>)obj;
+				Iterator<JFParam> iter = orig.iterator();
 				int i = 0;
 				jswriter.name("value");
 				jswriter.beginArray();
 				while(iter.hasNext()) {
 					try {
-						JFParam p = new JFParam("elem" + (i++), iter.next());
-						internalWriteJFParam(p);
+						//JFParam p = new JFParam("elem" + (i++), iter.next());
+						internalWriteJFParam(iter.next());
 					} catch (Exception e) {
 						logger.error("TYPE_VECTOR: " + e.toString(), e);
 					}
@@ -152,27 +153,25 @@ public class JFStreamSerializer {
 				break;
 			case JFDataTypes.TYPE_TABLE:
 			case JFDataTypes.TYPE_MAP:
-				jswriter.name("value");
-				jswriter.beginArray();
-				Map<?, ?> origMap = (Map<?, ?>)obj;
-				
-				int j=0;
-				for(Map.Entry<?, ?> entry : origMap.entrySet()) {
-					try {
-						jswriter.beginObject();
-						//Object key = entry.next();
-						JFParam keyParam = new JFParam("key" + (j), entry.getKey());
-						JFParam valParam = new JFParam("val" + (j), entry.getValue());
-						jswriter.name("key");
-						internalWriteJFParam(keyParam);
-						jswriter.name("value");
-						internalWriteJFParam(valParam);
-						jswriter.endObject();
-					} catch (Exception e) {
-						logger.error("TYPE_MAP: " + e.toString(), e);
-					}
-				}
-				jswriter.endArray();
+                jswriter.name("value");
+                jswriter.beginArray();
+                Map<JFParam, JFParam> origMap = (Map<JFParam, JFParam>) obj;
+                for (Map.Entry<JFParam, JFParam> entry : origMap.entrySet()) {
+                    try {
+                        jswriter.beginObject();
+                        //Object key = entry.next();
+                        JFParam keyParam = entry.getKey();
+                        JFParam valParam = entry.getValue();
+                        jswriter.name("key");
+                        internalWriteJFParam(keyParam);
+                        jswriter.name("value");
+                        internalWriteJFParam(valParam);
+                        jswriter.endObject();
+                    } catch (Exception e) {
+                        logger.error("TYPE_MAP: " + e.toString(), e);
+                    }
+                }
+                jswriter.endArray();
 				break;
 			default:
 				
@@ -191,7 +190,8 @@ public class JFStreamSerializer {
 		jswriter.beginObject();
 		jswriter.name("clazz").value(jfobj.getClazz());
 		jswriter.name("attr");
-		jswriter.beginArray();
+        jswriter.beginArray();
+
 		Iterator<JFParam> param = jfobj.getAttr().iterator();
 		while(param.hasNext()) {
 			JFParam jfp = param.next();
@@ -199,20 +199,21 @@ public class JFStreamSerializer {
 			
 		}
 		jswriter.endArray();
+
 		
 		jswriter.endObject();
 	}
 	
-	private void writeJFObjectArray(Object obj) throws Exception {
-		String arrayType = obj.getClass().getName();
-		jswriter.name("arrayClass").value(arrayType.substring(2, arrayType.length() - 1));
+	private void writeJFObjectArray(JFParamArray obj) throws Exception {
+		//String arrayType = obj.getClass().getName();
+		jswriter.name("arrayClass").value(obj.getCl());
 		jswriter.name("value");
 		
 		
-		Object[] objA = (Object[])obj;
+		JFParam[] objA = obj.getParamArray();
 		jswriter.beginArray();
 		for(int i = 0; i < objA.length; i++) {
-			internalWriteJFParam(new JFParam("elem" + (i), objA[i]));
+			internalWriteJFParam(objA[i]);
 		}
 		jswriter.endArray();
 		

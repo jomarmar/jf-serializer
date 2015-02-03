@@ -5,11 +5,14 @@
  */
 package org.fringe.jf.test.core.json;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.fringe.jf.json.internal.objects.JFParam;
+import org.fringe.jf.json.internal.objects.JFParamArray;
+import org.fringe.jf.json.internal.util.JFSonUtil;
 import org.fringe.jf.test.core.json.data.JFTestData;
 import org.fringe.jf.test.core.json.data.TestComplexBean;
 import org.fringe.jf.test.core.json.data.TestCompoundBean;
@@ -35,7 +38,7 @@ public class JFUnitAssert {
 	 * @param expected the expected
 	 * @param actual the actual
 	 */
-	public static final  void assertComplexBeanParam(JFParam expected, JFParam actual) {
+	public static final  void assertComplexBeanParam(JFParam expected, JFParam actual) throws Exception {
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getType(), actual.getType());
 		if(expected.getValue() == null) {
@@ -43,7 +46,7 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actual.getValue());
 		}
-		assertComplexBean((TestComplexBean)expected.getValue(), (TestComplexBean)actual.getValue());
+		assertComplexBean((TestComplexBean)JFSonUtil.toObject(expected), (TestComplexBean)JFSonUtil.toObject(actual));
 	}
 	
 	/**
@@ -108,7 +111,7 @@ public class JFUnitAssert {
 	 * @param expected the expected
 	 * @param actual the actual
 	 */
-	public static final  void assertCompoundBeanParam(JFParam expected, JFParam actual) {
+	public static final  void assertCompoundBeanParam(JFParam expected, JFParam actual) throws Exception {
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getType(), actual.getType());
 		if(expected.getValue() == null) {
@@ -116,8 +119,8 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actual.getValue());
 		}
-		TestCompoundBean expectedBean = (TestCompoundBean)expected.getValue();
-		TestCompoundBean actualBean = (TestCompoundBean)actual.getValue();
+		TestCompoundBean expectedBean = (TestCompoundBean)JFSonUtil.toObject(expected);
+		TestCompoundBean actualBean = (TestCompoundBean)JFSonUtil.toObject(actual);
 		Assert.assertEquals(expectedBean.getDataString(), actualBean.getDataString());
 		assertTestSimpleBean(expectedBean.getSimpleBean(), actualBean.getSimpleBean());
 
@@ -133,27 +136,45 @@ public class JFUnitAssert {
 	 * @param actual the actual
 	 */
 	@SuppressWarnings("unchecked")
-	public static final  void assertMapParam(JFParam expected, JFParam actual) {
-		Assert.assertEquals(expected.getName(), actual.getName());
-		Assert.assertEquals(expected.getType(), actual.getType());
-		if(expected.getValue() == null) {
-			Assert.assertNull(actual.getValue());
-		} else {
-			Assert.assertNotNull(actual.getValue());
-		}
-		
-		Map<Object, Object> expectedList = (Map<Object, Object>)expected.getValue();
-		Map<Object, Object> actualList = (Map<Object, Object>)actual.getValue();
-		
-		Iterator<Object> iter = expectedList.keySet().iterator();
-		while(iter.hasNext()) {
-			Object expectedKey = iter.next();
-			Object expectedValue = expectedList.get(expectedKey);
-			Object actualValue = actualList.get(expectedKey);
-			Assert.assertEquals(expectedValue, actualValue);
-		}
-		
-	}
+    public static final  void assertMapParam(JFParam expected, JFParam actual) {
+        Assert.assertEquals(expected.getName(), actual.getName());
+        Assert.assertEquals(expected.getType(), actual.getType());
+        if(expected.getValue() == null) {
+            Assert.assertNull(actual.getValue());
+        } else {
+            Assert.assertNotNull(actual.getValue());
+        }
+
+        Map<JFParam, JFParam> expectedList = (Map<JFParam, JFParam>)expected.getValue();
+        Map<JFParam, JFParam> actualList = (Map<JFParam, JFParam>)actual.getValue();
+
+        Map<Object, Object> actualMap = new HashMap<Object, Object>();
+        Iterator<JFParam> iter = actualList.keySet().iterator();
+        while(iter.hasNext()) {
+            JFParam actualKey = iter.next();
+            JFParam actualValue = actualList.get(actualKey);
+            actualMap.put(actualKey.getValue(), actualValue.getValue());
+
+        }
+        Map<Object, Object> expectedMap = new HashMap<Object, Object>();
+        Iterator<JFParam> iterExpected = expectedList.keySet().iterator();
+        while(iterExpected.hasNext()) {
+            JFParam expectedKey = iterExpected.next();
+            JFParam expectedValue = expectedList.get(expectedKey);
+            expectedMap.put(expectedKey.getValue(), expectedValue.getValue());
+
+        }
+
+
+        Iterator<Object> iterObjects = expectedMap.keySet().iterator();
+        while(iterObjects.hasNext()) {
+            Object expectedKey = iterObjects.next();
+            Object expectedValue = expectedMap.get(expectedKey);
+            Object actualValue = actualMap.get(expectedKey);
+            Assert.assertEquals(expectedValue, actualValue);
+        }
+
+    }
 	
 	/**
 	 * Assert list param.
@@ -172,8 +193,8 @@ public class JFUnitAssert {
 		}
 		
 		
-		List<Object> expectedList = (List<Object>)expected.getValue();
-		List<Object> actualList = (List<Object>)actual.getValue();
+		List<JFParam> expectedList = (List<JFParam>)expected.getValue();
+		List<JFParam> actualList = (List<JFParam>)actual.getValue();
 		assertList(expectedList, actualList);
 	}
 	
@@ -183,13 +204,13 @@ public class JFUnitAssert {
 	 * @param expected the expected
 	 * @param actual the actual
 	 */
-	public static final void assertList(List<?> expected, List<?> actual) {
+	public static final void assertList(List<JFParam> expected, List<JFParam> actual) {
 		int i = 0;
-		Iterator<?> iter = expected.iterator();
+		Iterator<JFParam> iter = expected.iterator();
 		while(iter.hasNext()) {
-			Object expectedElement = iter.next();
-			Object actualElement = actual.get(i++);
-			Assert.assertEquals(expectedElement, actualElement);
+            JFParam expectedElement = iter.next();
+            JFParam actualElement = actual.get(i++);
+			Assert.assertEquals(expectedElement.getValue(), actualElement.getValue());
 		}
 	}
 
@@ -201,7 +222,7 @@ public class JFUnitAssert {
 	 * @param expected the expected
 	 * @param actual the actual
 	 */
-	public static final  void assertTestSimpleBeanArray(JFParam expected, JFParam actual) {
+	public static final  void assertTestSimpleBeanArray(JFParam expected, JFParam actual) throws Exception {
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getType(), actual.getType());
 		if(expected.getValue() == null) {
@@ -209,8 +230,8 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actual.getValue());
 		}
-		TestSimpleBean[] expectedObj = (TestSimpleBean[])expected.getValue();
-		TestSimpleBean[] actualObj = (TestSimpleBean[])actual.getValue();
+		TestSimpleBean[] expectedObj = (TestSimpleBean[])((JFParamArray)expected.getValue()).getArray();
+		TestSimpleBean[] actualObj = (TestSimpleBean[])((JFParamArray)actual.getValue()).getArray();
 		
 		for(int i = 0; i < expectedObj.length; i++) {
 			assertTestSimpleBean(expectedObj[i], actualObj[i]);
@@ -225,7 +246,7 @@ public class JFUnitAssert {
 	 * @param expectedParam the expected param
 	 * @param actualParam the actual param
 	 */
-	public static final  void assertTestSimpleBeanParam(JFParam expectedParam, JFParam actualParam) {
+	public static final  void assertTestSimpleBeanParam(JFParam expectedParam, JFParam actualParam) throws Exception {
 		Assert.assertEquals(expectedParam.getName(), actualParam.getName());
 		Assert.assertEquals(expectedParam.getType(), actualParam.getType());
 		if(expectedParam.getValue() == null) {
@@ -233,8 +254,8 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actualParam.getValue());
 		}
-		TestSimpleBean expected = (TestSimpleBean)expectedParam.getValue();
-		TestSimpleBean actual = (TestSimpleBean)actualParam.getValue();
+		TestSimpleBean expected = (TestSimpleBean)JFSonUtil.toObject(expectedParam);
+		TestSimpleBean actual = (TestSimpleBean)JFSonUtil.toObject(actualParam);
 		assertTestSimpleBean(expected, actual);
 	}
 	
@@ -255,6 +276,29 @@ public class JFUnitAssert {
 		Assert.assertEquals(expected.getDataFloat(), actual.getDataFloat(), 0.05f);
 		Assert.assertEquals(expected.getDataInt(), actual.getDataInt());
 	}
+
+    public static final  void assertJFParamArray(JFParam expected, JFParam actual) {
+        Assert.assertEquals(expected.getName(), actual.getName());
+        Assert.assertEquals(expected.getType(), actual.getType());
+        if(expected.getValue() == null) {
+            Assert.assertNull(actual.getValue());
+        } else {
+            Assert.assertNotNull(actual.getValue());
+        }
+        JFParam[] expectedObj = ((JFParamArray)expected.getValue()).getParamArray();
+        JFParam[] actualObj = ((JFParamArray)actual.getValue()).getParamArray();
+
+        try {
+
+            for(int i = 0; i < expectedObj.length; i++) {
+                assertJFParam(expectedObj[i], actualObj[i]);
+            }
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+        }
+
+
+    }
 	
 	/**
 	 * Assert jf param.

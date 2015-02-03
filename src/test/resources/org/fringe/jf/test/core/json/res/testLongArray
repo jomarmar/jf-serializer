@@ -1,1 +1,1 @@
-{"name":"testLongArray","type":2001,"value":[111111,222222,333333]}
+{"name":"testLongArray","type":5000,"arrayClass":"[J","value":[{"name":"e0","type":1002,"value":111111},{"name":"e1","type":1002,"value":222222},{"name":"e2","type":1002,"value":333333}]}

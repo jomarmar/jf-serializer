@@ -10,15 +10,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
+import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
+import org.fringe.jf.json.internal.objects.JFParamArray;
 import org.fringe.jf.json.internal.util.Base64;
 import org.fringe.jf.json.internal.util.JFDataTypes;
 import org.fringe.jf.json.internal.util.JFSonUtil;
@@ -140,7 +136,7 @@ public class JFStreamParser {
 					param.setValue(jsreader.nextString().charAt(0));
 					break;
 				case JFDataTypes.TYPE_BASE64:
-					param.setValue(Base64.decode(jsreader.nextString()));
+					param.setValue(jsreader.nextString());
 					break;
 				case JFDataTypes.TYPE_DATE:
 					SimpleDateFormat format = new SimpleDateFormat(JFDataTypes.DATE_PATTERN, Locale.getDefault());
@@ -217,12 +213,12 @@ public class JFStreamParser {
 					
 				case JFDataTypes.TYPE_LIST:
 				case JFDataTypes.TYPE_VECTOR:
-					param.setValue(getListObject(param.getType()));
+					param.setValue(getListObject());
 					break;
 				
 				case JFDataTypes.TYPE_MAP:
 				case JFDataTypes.TYPE_TABLE:
-					param.setValue(getMapObject(param.getType()));
+					param.setValue(getMapObject());
 					break;
 				
 					
@@ -305,88 +301,93 @@ public class JFStreamParser {
 	}
 
 
-	private List<Object> getListObject(int type) throws Exception {
-		List<Object> list = new ArrayList<Object>();
-		if(type == JFDataTypes.TYPE_VECTOR) {
-			list = new Vector<Object>();
-		}
-		
-		jsreader.beginArray();
-		while(jsreader.hasNext()) {
-			list.add(internalReadJFParam().getValue());
-		}
-		
-		
-		jsreader.endArray();
-		
-		return list;
-		
-	}
-	
-	private Object getMapObject(int type) throws Exception {
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		if(type == JFDataTypes.TYPE_TABLE) {
-			map = new Hashtable<Object, Object>();
-		}
-		
-		jsreader.beginArray();
-		while(jsreader.hasNext()) {
-			jsreader.beginObject();
-			String iskey = jsreader.nextName();
-			Object objKey = null;
-			
-			if ("key".equals(iskey)) {
-				objKey = internalReadJFParam().getValue();
-			}
-			String isvalue = jsreader.nextName();
-			Object objValue = null;
-			if ("value".equals(isvalue)) {
-				objValue = internalReadJFParam().getValue();
-			}
-			map.put(objKey,  objValue);
-			
-			jsreader.endObject();
-		}
-		jsreader.endArray();
-		
-		return map;
-	}
+    private List<JFParam> getListObject() throws Exception {
+        List<JFParam> list = new ArrayList<JFParam>();
+//        if(type.equals(PumaTypeFactory.TYPE_VECTOR)) {
+//            list = new Vector<JFParam>();
+//        }
 
+        jsreader.beginArray();
+        while(jsreader.hasNext()) {
+            list.add(internalReadJFParam());
+        }
+
+
+        jsreader.endArray();
+
+        return list;
+
+    }
+
+    private Map<JFParam, JFParam> getMapObject() throws Exception {
+        Map<JFParam, JFParam> map = new LinkedHashMap<JFParam, JFParam>();
+//        if(type.equals(PumaTypeFactory.TYPE_TABLE)) {
+//            map = new Hashtable<JFParam, JFParam>();
+//        }
+
+        jsreader.beginArray();
+        while(jsreader.hasNext()) {
+            jsreader.beginObject();
+            String iskey = jsreader.nextName();
+            JFParam objKey = null;
+
+            if ("key".equals(iskey)) {
+                objKey = internalReadJFParam();
+            }
+            String isvalue = jsreader.nextName();
+            JFParam objValue = null;
+            if ("value".equals(isvalue)) {
+                objValue = internalReadJFParam();
+            }
+            map.put(objKey,  objValue);
+
+            jsreader.endObject();
+        }
+        jsreader.endArray();
+
+        return map;
+    }
+
+
+    private Object getJFObject() throws Exception {
+        List<JFParam> attrs = new ArrayList<JFParam>();
+        String cl = null;
+        jsreader.beginObject();
+        String name = jsreader.nextName();
+        if("clazz".equals(name)) {
+            cl = jsreader.nextString();
+        }
+        name = jsreader.nextName();
+        if("attr".equals(name)) {
+            jsreader.beginArray();
+            while(jsreader.hasNext()) {
+
+                attrs.add(internalReadJFParam());
+            }
+            jsreader.endArray();
+        }
+
+        jsreader.endObject();
+
+        return new JFObject(cl, attrs);
+
+    }
 	
-	private Object getJFObject() throws Exception {
-		List<JFParam> attrs = new ArrayList<JFParam>();
-		String cl = null;
-		jsreader.beginObject();
-		String name = jsreader.nextName();
-		if("clazz".equals(name)) {
-			cl = jsreader.nextString();
-		}
-		name = jsreader.nextName();
-		if("attr".equals(name)) {
-			jsreader.beginArray();
-			while(jsreader.hasNext()) {
-				attrs.add(internalReadJFParam());
-			}
-			jsreader.endArray();
-			
-		}
-		jsreader.endObject();
-		
-		return JFSonUtil.getObject(cl, attrs);
-		
-	}
-	
-	private Object[] getJFObjectArray(String arrayClass) throws Exception {
-		Object[] o = (Object[])Array.newInstance(Class.forName(arrayClass), 0);
-		
-		List<Object> elems = new ArrayList<Object>();
-		jsreader.beginArray();
-		while(jsreader.hasNext()) {
-			elems.add(internalReadJFParam().getValue());
-		}
-		jsreader.endArray();
-		
-		return elems.toArray(o);
+	private JFParamArray getJFObjectArray(String arrayClass) throws Exception {
+        JFParam[] o = (JFParam[]) Array.newInstance(JFParam.class, 0);
+
+        List<JFParam> elems = new ArrayList<JFParam>();
+
+        jsreader.beginArray();
+        while (jsreader.hasNext()) {
+            elems.add(internalReadJFParam());
+        }
+        jsreader.endArray();
+
+        JFParamArray array = new JFParamArray();
+        array.setCl(arrayClass);
+        array.setParamArray(elems.toArray(o));
+        return array;
 		
 	}
 	

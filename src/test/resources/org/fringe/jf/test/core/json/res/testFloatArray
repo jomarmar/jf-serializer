@@ -1,1 +1,1 @@
-{"name":"testFloatArray","type":2002,"value":[111111.0,222222.0,333333.0]}
+{"name":"testFloatArray","type":5000,"arrayClass":"[F","value":[{"name":"e0","type":1003,"value":111111.0},{"name":"e1","type":1003,"value":222222.0},{"name":"e2","type":1003,"value":333333.0}]}
