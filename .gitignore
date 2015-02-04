@@ -6,6 +6,7 @@ reports/
 build.properties
 
 .idea/
+*.iml
 
 META-INF/
 OSGI-INF/
