@@ -88,11 +88,7 @@ public final class JFSonUtil {
 			Object pbi = cl.newInstance();
 			for(int i = 0; i < attr.size(); i++) {
 				Object obj = toObject(attr.get(i));
-                if(obj == null) {
-                    System.out.println("OBJECT IS NULL");
-                } else {
-                    System.out.println("ObjectCLASS: " + obj.getClass().getName() + " Value: " + obj.toString());
-                }
+
 				try {
 					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
 					m.invoke(pbi, obj);

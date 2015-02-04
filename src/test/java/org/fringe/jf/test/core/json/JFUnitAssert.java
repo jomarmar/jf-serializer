@@ -364,7 +364,7 @@ public class JFUnitAssert {
 		 * End serialize.
 		 */
 		public static void endSerialize() {
-			logger.debug(mesg + "[SERIALIZE]: "
+			logger.info(mesg + "[SERIALIZE]: "
 					+ (System.nanoTime() - startTime) + "("
 					+ (System.currentTimeMillis() - startTimeMS) + ")");
 		}
@@ -373,7 +373,7 @@ public class JFUnitAssert {
 		 * End parse.
 		 */
 		public static void endParse() {
-			logger.debug(mesg + "[PARSE]: "
+			logger.info(mesg + "[PARSE]: "
 					+ (System.nanoTime() - startTime) + "("
 					+ (System.currentTimeMillis() - startTimeMS) + ")");
 		}

@@ -5,6 +5,8 @@
  */
 package org.fringe.jf.json;
 
+import org.fringe.jf.json.internal.objects.JFParam;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,7 +23,7 @@ public interface IJFSerializer {
 	 * @return the object
 	 * @throws Exception the exception
 	 */
-	Object parse(String js) throws Exception;
+	JFParam parse(String js) throws Exception;
 	
 	/**
 	 * Parses a JF formatted json file to a Java Object.
@@ -30,7 +32,7 @@ public interface IJFSerializer {
 	 * @return the object
 	 * @throws Exception the exception
 	 */
-	Object parse(File f) throws Exception;
+    JFParam parse(File f) throws Exception;
 	
 	/**
 	 * Parses a JF formatted json InputStream to a Java Object.
@@ -39,7 +41,7 @@ public interface IJFSerializer {
 	 * @return the object
 	 * @throws Exception the exception
 	 */
-	Object parse(InputStream is) throws Exception;
+    JFParam parse(InputStream is) throws Exception;
 	
 	/**
 	 * Serialize a Java Object to a JF formatted json String
@@ -48,7 +50,7 @@ public interface IJFSerializer {
 	 * @return the string
 	 * @throws Exception the exception
 	 */
-	String serialize(Object obj) throws Exception;
+	String serialize(JFParam obj) throws Exception;
 	
 	/**
 	 * Serialize a Java Object to a JF formatted json file.
@@ -57,7 +59,7 @@ public interface IJFSerializer {
 	 * @param file the full file path
 	 * @throws Exception the exception
 	 */
-	void serializeToFile(Object obj, String file) throws Exception;
+	void serializeToFile(JFParam obj, String file) throws Exception;
 
 	/**
 	 * Serialize a Java Object to a JF formatted json OutputStream.
@@ -66,6 +68,6 @@ public interface IJFSerializer {
 	 * @param os the os
 	 * @throws Exception the exception
 	 */
-	void serializeToStream(Object obj, OutputStream os) throws Exception;
+	void serializeToStream(JFParam obj, OutputStream os) throws Exception;
 	
 }
