@@ -8,9 +8,8 @@ package org.fringe.jf.json;
 import java.io.*;
 
 import org.fringe.jf.json.internal.objects.JFParam;
-import org.fringe.jf.json.internal.parser.JFParser;
 import org.fringe.jf.json.internal.parser.JFStreamParser;
-import org.fringe.jf.json.internal.serializer.JFSerializer;
+
 import org.fringe.jf.json.internal.serializer.JFStreamSerializer;
 
  

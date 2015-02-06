@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.objects.JFParamArray;
 import org.fringe.jf.json.internal.util.JFSonUtil;
@@ -306,7 +307,7 @@ public class JFUnitAssert {
 	 * @param expected the expected
 	 * @param actual the actual
 	 */
-	public static final  void assertJFParam(JFParam expected, JFParam actual) {
+	public static final  void assertJFParam(JFParam expected, JFParam actual) throws Exception {
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getType(), actual.getType());
 		if(expected.getValue() == null) {
@@ -331,8 +332,24 @@ public class JFUnitAssert {
 				Assert.assertTrue(JFTestData.boolATest[i] == ((boolean[]) actual.getValue())[i]);
 			}
 		} else if(expected.getValue() instanceof String[]) {
-			Assert.assertArrayEquals((Object[])expected.getValue(), (Object[])actual.getValue());
-		} else {
+			Assert.assertArrayEquals((Object[]) expected.getValue(), (Object[]) actual.getValue());
+		} else if(expected.getValue() instanceof JFParamArray) {
+            assertJFParamArray(expected, actual);
+        } else if(expected.getValue() instanceof JFObject) {
+            if(JFSonUtil.toObject(expected) instanceof TestSimpleBean) {
+                assertTestSimpleBeanParam(expected, actual);
+            } else if (JFSonUtil.toObject(expected) instanceof TestComplexBean) {
+                assertComplexBeanParam(expected, actual);
+            } else if (JFSonUtil.toObject(expected) instanceof TestCompoundBean) {
+                assertCompoundBeanParam(expected, actual);
+            }
+        } else if (expected.getValue() instanceof List) {
+            assertListParam(expected, actual);
+        } else if (expected.getValue() instanceof Map) {
+            assertMapParam(expected, actual);
+        }
+
+        else {
 			Assert.assertEquals(expected.getValue(), actual.getValue());
 		}
 		

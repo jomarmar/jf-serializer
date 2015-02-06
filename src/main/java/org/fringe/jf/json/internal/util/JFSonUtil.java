@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import com.sun.deploy.panel.ITreeNode;
+
 import org.fringe.jf.json.internal.objects.JFObject;
 import org.fringe.jf.json.internal.objects.JFParam;
 import org.fringe.jf.json.internal.objects.JFParamArray;

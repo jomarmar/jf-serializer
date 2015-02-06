@@ -44,7 +44,7 @@
 
 	<groupId>org.fringe</groupId>
 	<artifactId>jf-serializer</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	
