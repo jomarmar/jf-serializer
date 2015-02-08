@@ -18,7 +18,7 @@ import org.jemz.jf.json.objects.JFObject;
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.json.objects.JFParamArray;
 import org.jemz.jf.json.internal.util.JFDataTypes;
-import org.jemz.jf.json.internal.util.JFSonUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +120,7 @@ public class JFStreamSerializer implements IJFConstants {
 			case JFDataTypes.TYPE_OBJECT:
 				
 				try {
-					writeJFObject(obj);
+					writeJFObject((JFObject)obj);
 				} catch (Exception e) {
 					logger.error("TYPE_OBJECT: " + e.toString(), e);
 				}
@@ -184,8 +184,8 @@ public class JFStreamSerializer implements IJFConstants {
 			
 	}
 	
-	private void writeJFObject(Object obj) throws Exception {
-		JFObject jfobj = JFSonUtil.toJFObject(obj);
+	private void writeJFObject(JFObject jfobj) throws Exception {
+
 		jswriter.name(FIELD_VALUE);
 		jswriter.beginObject();
 		jswriter.name(FIELD_CLASS).value(jfobj.getClazz());

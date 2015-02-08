@@ -6,7 +6,7 @@
 package org.jemz.jf.test.core.json;
 
 import org.jemz.jf.json.JsonSerializer;
-import org.jemz.jf.json.internal.util.JFSonUtil;
+
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.test.core.json.data.JFTestData;
 import org.jemz.jf.test.core.json.data.TestSimpleBean;

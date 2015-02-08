@@ -5,7 +5,7 @@
  */
 package org.jemz.jf.test.core.json;
 
-import org.jemz.jf.json.internal.util.JFSonUtil;
+
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.json.internal.parser.JFStreamParser;
 import org.jemz.jf.json.internal.serializer.JFStreamSerializer;

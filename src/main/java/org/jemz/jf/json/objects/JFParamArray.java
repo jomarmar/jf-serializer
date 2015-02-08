@@ -1,7 +1,7 @@
 package org.jemz.jf.json.objects;
 
 import org.jemz.jf.json.internal.util.IJFConstants;
-import org.jemz.jf.json.internal.util.JFSonUtil;
+
 
 import java.lang.reflect.Array;
 
@@ -95,17 +95,7 @@ public class JFParamArray implements IJFConstants {
                 } else {
                     clazz = Class.forName(cl.substring(dim -1));
                 }
-            }
-
-//            else if (cl.endsWith(JAVA_TYPE_BYTEARRAY)) {
-//                if(dim == 1) {
-//                    clazz = byte.class;
-//                } else {
-//                    clazz = Class.forName(cl.substring(dim -1));
-//                }
-//
-//            }
-            else if (cl.endsWith(JAVA_TYPE_BOOLEANARRAY)) {
+            } else if (cl.endsWith(JAVA_TYPE_BOOLEANARRAY)) {
                 if(dim == 1) {
                     clazz = boolean.class;
                 } else {
@@ -125,7 +115,7 @@ public class JFParamArray implements IJFConstants {
             }
             Object o = Array.newInstance(clazz, len);
             for(int i=0;i<len;i++) {
-                Array.set(o, i, JFSonUtil.toObject(paramArray[i]));
+                Array.set(o, i, paramArray[i].toObject());
             }
             return o;
         }

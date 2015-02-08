@@ -13,7 +13,7 @@ import java.util.Map;
 import org.jemz.jf.json.objects.JFObject;
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.json.objects.JFParamArray;
-import org.jemz.jf.json.internal.util.JFSonUtil;
+
 import org.jemz.jf.test.core.json.data.JFTestData;
 import org.jemz.jf.test.core.json.data.TestComplexBean;
 import org.jemz.jf.test.core.json.data.TestCompoundBean;
@@ -47,7 +47,7 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actual.getValue());
 		}
-		assertComplexBean((TestComplexBean)JFSonUtil.toObject(expected), (TestComplexBean)JFSonUtil.toObject(actual));
+		assertComplexBean((TestComplexBean)expected.toObject(), (TestComplexBean)actual.toObject());
 	}
 	
 	/**
@@ -120,8 +120,8 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actual.getValue());
 		}
-		TestCompoundBean expectedBean = (TestCompoundBean)JFSonUtil.toObject(expected);
-		TestCompoundBean actualBean = (TestCompoundBean)JFSonUtil.toObject(actual);
+		TestCompoundBean expectedBean = (TestCompoundBean)expected.toObject();
+		TestCompoundBean actualBean = (TestCompoundBean)actual.toObject();
 		Assert.assertEquals(expectedBean.getDataString(), actualBean.getDataString());
 		assertTestSimpleBean(expectedBean.getSimpleBean(), actualBean.getSimpleBean());
 
@@ -255,8 +255,8 @@ public class JFUnitAssert {
 		} else {
 			Assert.assertNotNull(actualParam.getValue());
 		}
-		TestSimpleBean expected = (TestSimpleBean)JFSonUtil.toObject(expectedParam);
-		TestSimpleBean actual = (TestSimpleBean)JFSonUtil.toObject(actualParam);
+		TestSimpleBean expected = (TestSimpleBean)expectedParam.toObject();
+		TestSimpleBean actual = (TestSimpleBean)actualParam.toObject();
 		assertTestSimpleBean(expected, actual);
 	}
 	
@@ -336,11 +336,11 @@ public class JFUnitAssert {
 		} else if(expected.getValue() instanceof JFParamArray) {
             assertJFParamArray(expected, actual);
         } else if(expected.getValue() instanceof JFObject) {
-            if(JFSonUtil.toObject(expected) instanceof TestSimpleBean) {
+            if(expected.toObject() instanceof TestSimpleBean) {
                 assertTestSimpleBeanParam(expected, actual);
-            } else if (JFSonUtil.toObject(expected) instanceof TestComplexBean) {
+            } else if (expected.toObject() instanceof TestComplexBean) {
                 assertComplexBeanParam(expected, actual);
-            } else if (JFSonUtil.toObject(expected) instanceof TestCompoundBean) {
+            } else if (expected.toObject() instanceof TestCompoundBean) {
                 assertCompoundBeanParam(expected, actual);
             }
         } else if (expected.getValue() instanceof List) {

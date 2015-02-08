@@ -7,7 +7,7 @@ package org.jemz.jf.json.objects;
 
 import org.jemz.jf.json.internal.util.Base64;
 import org.jemz.jf.json.internal.util.JFDataTypes;
-import org.jemz.jf.json.internal.util.JFSonUtil;
+
 
 import java.util.*;
 
@@ -77,7 +77,7 @@ public class JFParam {
                 this.value = getListParams((List<?>) value);
                 break;
             case JFDataTypes.TYPE_OBJECT:
-                this.value = JFSonUtil.toJFObject(value);
+                this.value = new JFObject(value);
                 break;
             default:
                 this.value = value;
@@ -160,6 +160,66 @@ public class JFParam {
             count++;
         }
         return res;
+    }
+
+    public Object toObject() throws Exception {
+        switch(this.type) {
+            case JFDataTypes.TYPE_OBJECTARRAY:
+                JFParamArray pArray = (JFParamArray) this.value;
+                return pArray.getArray();
+            case JFDataTypes.TYPE_OBJECT:
+                JFObject obj = (JFObject) this.value;
+                return obj.getObject();
+
+            case JFDataTypes.TYPE_VECTOR:
+                Vector<Object> vdata = new Vector<Object>();
+                List<JFParam> vlst = (List<JFParam>) this.value;
+                Iterator<JFParam> viter = vlst.iterator();
+                while(viter.hasNext()) {
+                    JFParam jfParam = viter.next();
+                    vdata.add(jfParam.toObject());
+
+                }
+                return vdata;
+            case JFDataTypes.TYPE_LIST:
+                List<Object> data = new ArrayList<Object>();
+                List<JFParam> lst = (List<JFParam>) this.value;
+                Iterator<JFParam> iter = lst.iterator();
+                while(iter.hasNext()) {
+                    JFParam jfParam = iter.next();
+                    data.add(jfParam.toObject());
+
+                }
+                return data;
+            case JFDataTypes.TYPE_TABLE:
+                Map<Object, Object> dt = new Hashtable<Object, Object>();
+                Map<JFParam, JFParam> tabp = (Map<JFParam, JFParam>) this.value;
+                Iterator<Map.Entry<JFParam, JFParam>> it = tabp.entrySet().iterator();
+                while(it.hasNext()) {
+                    Map.Entry<JFParam, JFParam> entry = it.next();
+                    dt.put(entry.getKey().toObject(), entry.getValue().toObject());
+                }
+
+                return dt;
+            case JFDataTypes.TYPE_MAP:
+
+                Map<Object, Object> d = new LinkedHashMap<Object, Object>();
+                Map<JFParam, JFParam> map = (Map<JFParam, JFParam>) this.value;
+                Iterator<Map.Entry<JFParam, JFParam>> ite = map.entrySet().iterator();
+                while(ite.hasNext()) {
+                    Map.Entry<JFParam, JFParam> entry = ite.next();
+                    d.put(entry.getKey().toObject(), entry.getValue().toObject());
+                }
+
+                return d;
+
+            case JFDataTypes.TYPE_BASE64:
+                return Base64.decode((String) this.value);
+
+            default:
+                return this.value;
+
+        }
     }
 
 }
