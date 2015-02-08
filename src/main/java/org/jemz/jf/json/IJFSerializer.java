@@ -5,7 +5,7 @@
  */
 package org.jemz.jf.json;
 
-import org.jemz.jf.json.objects.JFParam;
+
 
 import java.io.File;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ public interface IJFSerializer {
 	 * @return the object
 	 * @throws Exception the exception
 	 */
-	JFParam parse(String js) throws Exception;
+	Object parse(String js) throws Exception;
 	
 	/**
 	 * Parses a JF formatted json file to a Java Object.
@@ -32,7 +32,7 @@ public interface IJFSerializer {
 	 * @return the object
 	 * @throws Exception the exception
 	 */
-    JFParam parse(File f) throws Exception;
+    Object parse(File f) throws Exception;
 	
 	/**
 	 * Parses a JF formatted json InputStream to a Java Object.
@@ -41,7 +41,7 @@ public interface IJFSerializer {
 	 * @return the object
 	 * @throws Exception the exception
 	 */
-    JFParam parse(InputStream is) throws Exception;
+    Object parse(InputStream is) throws Exception;
 	
 	/**
 	 * Serialize a Java Object to a JF formatted json String
@@ -50,7 +50,7 @@ public interface IJFSerializer {
 	 * @return the string
 	 * @throws Exception the exception
 	 */
-	String serialize(JFParam obj) throws Exception;
+	String serialize(Object obj) throws Exception;
 	
 	/**
 	 * Serialize a Java Object to a JF formatted json file.
@@ -59,7 +59,7 @@ public interface IJFSerializer {
 	 * @param file the full file path
 	 * @throws Exception the exception
 	 */
-	void serializeToFile(JFParam obj, String file) throws Exception;
+	void serializeToFile(Object obj, String file) throws Exception;
 
 	/**
 	 * Serialize a Java Object to a JF formatted json OutputStream.
@@ -68,6 +68,6 @@ public interface IJFSerializer {
 	 * @param os the os
 	 * @throws Exception the exception
 	 */
-	void serializeToStream(JFParam obj, OutputStream os) throws Exception;
+	void serializeToStream(Object obj, OutputStream os) throws Exception;
 	
 }
