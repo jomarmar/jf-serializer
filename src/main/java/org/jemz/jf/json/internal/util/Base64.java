@@ -95,8 +95,8 @@ public final class  Base64 {
 	    for (int i = 52,  j = 0; i <= 61; i++, j++) {
 	        lookUpBase64Alphabet[i] = (char)('0' + j);
 	    }
-	    lookUpBase64Alphabet[62] = (char)'+';
-	    lookUpBase64Alphabet[63] = (char)'/';
+	    lookUpBase64Alphabet[62] = '+';
+	    lookUpBase64Alphabet[63] = '/';
 	
 	}
 	
@@ -169,11 +169,11 @@ public final class  Base64 {
 	
 	    encodedData = new char[numberQuartet*4];
 	
-	    byte k=0;
-	    byte l=0;
-	    byte b1=0;
-	    byte b2=0;
-	    byte b3=0;
+	    byte k;
+	    byte l;
+	    byte b1;
+	    byte b2;
+	    byte b3;
 	
 	    int encodedIndex = 0;
 	    int dataIndex   = 0;
@@ -268,14 +268,14 @@ public final class  Base64 {
 	    }
 	
 	    byte[]     decodedData      = null;
-	    byte b1=0;
-	    byte b2=0;
-	    byte b3=0;
-	    byte b4=0;
-	    char d1=0;
-	    char d2=0;
-	    char d3=0;
-	    char d4=0;
+	    byte b1;
+	    byte b2;
+	    byte b3;
+	    byte b4;
+	    char d1;
+	    char d2;
+	    char d3;
+	    char d4;
 	
 	    int i = 0;
 	    int encodedIndex = 0;

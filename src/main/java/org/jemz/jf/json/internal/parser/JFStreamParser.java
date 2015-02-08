@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.jemz.jf.json.internal.util.IJFConstants;
 import org.jemz.jf.json.objects.JFObject;
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.json.objects.JFParamArray;
@@ -24,7 +25,7 @@ import com.google.gson.stream.JsonReader;
 /**
  * The Class JFStreamParser.
  */
-public class JFStreamParser {
+public class JFStreamParser implements IJFConstants {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JFStreamParser.class);
 	
@@ -46,7 +47,7 @@ public class JFStreamParser {
 	 */
 	public JFParam readJFParam(String file) throws Exception {
 		FileInputStream fos = new FileInputStream(file);
-		jsreader = new JsonReader(new InputStreamReader(fos, "UTF-8"));
+		jsreader = new JsonReader(new InputStreamReader(fos, DEFAULT_ENCODING));
 		return readJFParam();
 	}
 	
@@ -58,7 +59,7 @@ public class JFStreamParser {
 	 * @throws Exception the exception
 	 */
 	public JFParam readJFParam(InputStream instream) throws Exception {
-		jsreader = new JsonReader(new InputStreamReader(instream, "UTF-8"));
+		jsreader = new JsonReader(new InputStreamReader(instream, DEFAULT_ENCODING));
 		return readJFParam();
 		
 	}
@@ -81,7 +82,7 @@ public class JFStreamParser {
 		JFParam param = new JFParam();
 		jsreader.beginObject();
 		String name = jsreader.nextName();
-		if("name".equals(name)) {
+		if(FIELD_NAME.equals(name)) {
 			try {
 				param.setName(jsreader.nextString());
 			} catch(Exception ex) {
@@ -90,19 +91,19 @@ public class JFStreamParser {
 			}
 		}
 		name = jsreader.nextName();
-		if("type".equals(name)) {
+		if(FIELD_TYPE.equals(name)) {
 			param.setType(jsreader.nextInt());
 		}
 		if(param.getType() == JFDataTypes.TYPE_OBJECTARRAY) {
 			name = jsreader.nextName();
-			if("arrayClass".equals(name)) {
+			if(FIELD_CLASS.equals(name)) {
 				arrayClass = jsreader.nextString();
 				
 			}
 		}
 		
 		name = jsreader.nextName();
-		if("value".equals(name)) {
+		if(FIELD_VALUE.equals(name)) {
 			switch(param.getType()) {
 				case JFDataTypes.TYPE_STRING:
 					param.setValue(jsreader.nextString());
@@ -137,78 +138,9 @@ public class JFStreamParser {
 					param.setValue(jsreader.nextString());
 					break;
 				case JFDataTypes.TYPE_DATE:
-					SimpleDateFormat format = new SimpleDateFormat(JFDataTypes.DATE_PATTERN, Locale.getDefault());
+					SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
 					param.setValue(format.parse(jsreader.nextString()));
 					break;
-//				case JFDataTypes.TYPE_STRINGARRAY:
-//					List<String> elems0 = new ArrayList<String>();
-//					String[] result0 = new String[0];
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems0.add(jsreader.nextString());
-//					}
-//					param.setValue(elems0.toArray(result0));
-//					jsreader.endArray();
-//					break;
-//				case JFDataTypes.TYPE_INTEGERARRAY:
-//					List<Integer> elems = new ArrayList<Integer>();
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems.add(jsreader.nextInt());
-//					}
-//					param.setValue(toIntArray(elems));
-//					jsreader.endArray();
-//					break;
-//				case JFDataTypes.TYPE_LONGARRAY:
-//					List<Long> elems1 = new ArrayList<Long>();
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems1.add(jsreader.nextLong());
-//					}
-//					param.setValue(toLongArray(elems1));
-//					jsreader.endArray();
-//					break;
-//
-//				case JFDataTypes.TYPE_FLOATARRAY:
-//					List<Float> elems2 = new ArrayList<Float>();
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems2.add((float)jsreader.nextDouble());
-//					}
-//					param.setValue(toFloatArray(elems2));
-//					jsreader.endArray();
-//					break;
-//
-//				case JFDataTypes.TYPE_DOUBLEARRAY:
-//					List<Double> elems3 = new ArrayList<Double>();
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems3.add(jsreader.nextDouble());
-//					}
-//					param.setValue(toDoubleArray(elems3));
-//					jsreader.endArray();
-//					break;
-//
-//				case JFDataTypes.TYPE_BOOLEANARRAY:
-//					List<Boolean> elems4 = new ArrayList<Boolean>();
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems4.add(jsreader.nextBoolean());
-//					}
-//					param.setValue(toBooleanArray(elems4));
-//					jsreader.endArray();
-//					break;
-//
-//				case JFDataTypes.TYPE_CHARACTERARRAY:
-//					List<Character> elems5 = new ArrayList<Character>();
-//					jsreader.beginArray();
-//					while(jsreader.hasNext()) {
-//						elems5.add(jsreader.nextString().charAt(0));
-//					}
-//					param.setValue(toCharArray(elems5));
-//					jsreader.endArray();
-//					break;
-					
 				case JFDataTypes.TYPE_LIST:
 				case JFDataTypes.TYPE_VECTOR:
 					param.setValue(getListObject());
@@ -244,67 +176,10 @@ public class JFStreamParser {
 		return param;
 	}
 	
-	private int[] toIntArray(List<Integer> list)  {
-	    int[] ret = new int[list.size()];
-	    int i = 0;
-	    for (Integer e : list) {
-	        ret[i++] = e.intValue();
-	    }
-	    return ret;
-	}
-	
-	private long[] toLongArray(List<Long> list)  {
-	    long[] ret = new long[list.size()];
-	    int i = 0;
-	    for (Long e : list) {
-	        ret[i++] = e.longValue();
-	    }
-	    return ret;
-	}
-	
-	private float[] toFloatArray(List<Float> list)  {
-		float[] ret = new float[list.size()];
-	    int i = 0;
-	    for (Float e : list) {
-	        ret[i++] = e.floatValue();
-	    }
-	    return ret;
-	}
-	
-	private double[] toDoubleArray(List<Double> list)  {
-		double[] ret = new double[list.size()];
-	    int i = 0;
-	    for (Double e : list) {
-	        ret[i++] = e.doubleValue();
-	    }
-	    return ret;
-	}
-	
-	private char[] toCharArray(List<Character> list)  {
-		char[] ret = new char[list.size()];
-	    int i = 0;
-	    for (Character e : list) {
-	        ret[i++] = e.charValue();
-	    }
-	    return ret;
-	}
-	
-	private boolean[] toBooleanArray(List<Boolean> list)  {
-		boolean[] ret = new boolean[list.size()];
-	    int i = 0;
-	    for (Boolean e : list) {
-	        ret[i++] = e.booleanValue();
-	    }
-	    return ret;
-	}
 
 
     private List<JFParam> getListObject() throws Exception {
         List<JFParam> list = new ArrayList<JFParam>();
-//        if(type.equals(PumaTypeFactory.TYPE_VECTOR)) {
-//            list = new Vector<JFParam>();
-//        }
-
         jsreader.beginArray();
         while(jsreader.hasNext()) {
             list.add(internalReadJFParam());
@@ -319,22 +194,18 @@ public class JFStreamParser {
 
     private Map<JFParam, JFParam> getMapObject() throws Exception {
         Map<JFParam, JFParam> map = new LinkedHashMap<JFParam, JFParam>();
-//        if(type.equals(PumaTypeFactory.TYPE_TABLE)) {
-//            map = new Hashtable<JFParam, JFParam>();
-//        }
-
         jsreader.beginArray();
         while(jsreader.hasNext()) {
             jsreader.beginObject();
             String iskey = jsreader.nextName();
             JFParam objKey = null;
 
-            if ("key".equals(iskey)) {
+            if (FIELD_MAP_KEY.equals(iskey)) {
                 objKey = internalReadJFParam();
             }
             String isvalue = jsreader.nextName();
             JFParam objValue = null;
-            if ("value".equals(isvalue)) {
+            if (FIELD_MAP_VALUE.equals(isvalue)) {
                 objValue = internalReadJFParam();
             }
             map.put(objKey,  objValue);
@@ -352,11 +223,11 @@ public class JFStreamParser {
         String cl = null;
         jsreader.beginObject();
         String name = jsreader.nextName();
-        if("clazz".equals(name)) {
+        if(FIELD_CLASS.equals(name)) {
             cl = jsreader.nextString();
         }
         name = jsreader.nextName();
-        if("attr".equals(name)) {
+        if(FIELD_ATTRIBUTE.equals(name)) {
             jsreader.beginArray();
             while(jsreader.hasNext()) {
 
@@ -390,47 +261,4 @@ public class JFStreamParser {
 	}
 	
 	
-//	private final Object getObject(String clazz, List<JFParam> attr) throws Exception {
-//		try {
-//			
-//			
-//			Class<?> cl = Class.forName(clazz);
-//			Object pbi = cl.newInstance();
-//			for(int i = 0; i < attr.size(); i++) {
-//				Object obj = toObject(attr.get(i));
-//
-//				try {
-//					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
-//					m.invoke(pbi, obj);
-//					
-//				} catch(Exception ex) {
-//					Method[] methods = cl.getMethods();
-//					Method meth = null;
-//					for(int j = 0; j < methods.length; j++) {
-//						if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
-//							meth = methods[j];
-//							break;
-//						}
-//					}
-//					if(meth != null) {
-//						meth.invoke(pbi, obj);
-//					}
-//				}
-//			}
-//			return pbi;
-//			
-//		} catch (Exception e) {
-//			throw new Exception("Error returning object of type: " + clazz, e);
-//			
-//		}
-//	}
-//	
-//	private final Object toObject(JFParam param) throws Exception {
-//		return param.getValue();
-//	}
-//	
-//	private final String upFirst(String s) {
-//		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-//	}
-
 }

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.jemz.jf.json.internal.util.IJFConstants;
 import org.jemz.jf.json.objects.JFObject;
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.json.objects.JFParamArray;
@@ -29,7 +30,7 @@ import com.google.gson.stream.JsonWriter;
 /**
  * The Class JFStreamSerializer.
  */
-public class JFStreamSerializer {
+public class JFStreamSerializer implements IJFConstants {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JFStreamSerializer.class);
 	
@@ -40,7 +41,7 @@ public class JFStreamSerializer {
 	static {
 		GsonBuilder gson_builder =  new GsonBuilder();
 		gson_builder.serializeNulls();
-		gson_builder.setDateFormat("yyyyMMddHHmmss.SSS-Z");
+		gson_builder.setDateFormat(DATE_PATTERN);
 //		gson_builder.registerTypeAdapter(JFParam.class, new JFParamSerializer());
 		gson_builder.disableHtmlEscaping();
 		
@@ -75,7 +76,7 @@ public class JFStreamSerializer {
 	 */
 	public void writeJFParam(JFParam param, String file) throws IOException {
 		FileOutputStream fos = new FileOutputStream(file);
-		jswriter = new JsonWriter(new OutputStreamWriter(fos, "UTF-8"));
+		jswriter = new JsonWriter(new OutputStreamWriter(fos, DEFAULT_ENCODING));
 		writeJFParam(param);
 	}
 	
@@ -87,7 +88,7 @@ public class JFStreamSerializer {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void writeJFParam(JFParam param, OutputStream ostream) throws IOException {
-		jswriter = new JsonWriter(new OutputStreamWriter(ostream, "UTF-8"));
+		jswriter = new JsonWriter(new OutputStreamWriter(ostream, DEFAULT_ENCODING));
 		writeJFParam(param);
 	}
 	
@@ -96,9 +97,9 @@ public class JFStreamSerializer {
 		
 		jswriter.beginObject();
 //		if(param.getName() != null) {
-			jswriter.name("name").value(param.getName());
+			jswriter.name(FIELD_NAME).value(param.getName());
 //		}
-		jswriter.name("type").value(param.getType());
+		jswriter.name(FIELD_TYPE).value(param.getType());
 		
 		writeValue(param.getType(), param.getValue());
 		
@@ -114,7 +115,7 @@ public class JFStreamSerializer {
 	private void writeValue(int type, Object obj) throws IOException {
 		switch(type) {
 			case JFDataTypes.TYPE_BASE64:
-				jswriter.name("value").value((String)obj);
+				jswriter.name(FIELD_VALUE).value((String)obj);
 				break;
 			case JFDataTypes.TYPE_OBJECT:
 				
@@ -136,7 +137,7 @@ public class JFStreamSerializer {
 				List<JFParam> orig = (List<JFParam>)obj;
 				Iterator<JFParam> iter = orig.iterator();
 				int i = 0;
-				jswriter.name("value");
+				jswriter.name(FIELD_VALUE);
 				jswriter.beginArray();
 				while(iter.hasNext()) {
 					try {
@@ -152,7 +153,7 @@ public class JFStreamSerializer {
 				break;
 			case JFDataTypes.TYPE_TABLE:
 			case JFDataTypes.TYPE_MAP:
-                jswriter.name("value");
+                jswriter.name(FIELD_VALUE);
                 jswriter.beginArray();
                 Map<JFParam, JFParam> origMap = (Map<JFParam, JFParam>) obj;
                 for (Map.Entry<JFParam, JFParam> entry : origMap.entrySet()) {
@@ -161,9 +162,9 @@ public class JFStreamSerializer {
                         //Object key = entry.next();
                         JFParam keyParam = entry.getKey();
                         JFParam valParam = entry.getValue();
-                        jswriter.name("key");
+                        jswriter.name(FIELD_MAP_KEY);
                         internalWriteJFParam(keyParam);
-                        jswriter.name("value");
+                        jswriter.name(FIELD_MAP_VALUE);
                         internalWriteJFParam(valParam);
                         jswriter.endObject();
                     } catch (Exception e) {
@@ -174,7 +175,7 @@ public class JFStreamSerializer {
 				break;
 			default:
 				
-				jswriter.name("value");
+				jswriter.name(FIELD_VALUE);
 				gson.toJson(obj, Object.class, jswriter);
 				
 		
@@ -185,10 +186,10 @@ public class JFStreamSerializer {
 	
 	private void writeJFObject(Object obj) throws Exception {
 		JFObject jfobj = JFSonUtil.toJFObject(obj);
-		jswriter.name("value");
+		jswriter.name(FIELD_VALUE);
 		jswriter.beginObject();
-		jswriter.name("clazz").value(jfobj.getClazz());
-		jswriter.name("attr");
+		jswriter.name(FIELD_CLASS).value(jfobj.getClazz());
+		jswriter.name(FIELD_ATTRIBUTE);
         jswriter.beginArray();
 
 		Iterator<JFParam> param = jfobj.getAttr().iterator();
@@ -205,8 +206,8 @@ public class JFStreamSerializer {
 	
 	private void writeJFObjectArray(JFParamArray obj) throws Exception {
 		//String arrayType = obj.getClass().getName();
-		jswriter.name("arrayClass").value(obj.getCl());
-		jswriter.name("value");
+		jswriter.name(FIELD_CLASS).value(obj.getCl());
+		jswriter.name(FIELD_VALUE);
 		
 		
 		JFParam[] objA = obj.getParamArray();
@@ -219,67 +220,4 @@ public class JFStreamSerializer {
 		
 	}
 
-//	/**
-//	 * Transforms any {@link java.lang.Object} into a {@link JFObject}
-//	 * @param v object to be transformed
-//	 * @return a JFObject
-//	 * @throws Exception if v cannot be converted into a {@link JFObject}
-//	 */
-//	private final JFObject toJFObject(Object v) throws Exception {
-//		if(v instanceof JFObject) {
-//			return (JFObject)v;
-//		}
-//		String name = v.getClass().getName();
-//	
-//		Class<?> cl = Class.forName(name);
-//		
-//		Class<?> superClass =  (Class<?>) cl.getSuperclass();
-//		Field[] fields = cl.getDeclaredFields();
-//		List<JFParam> params = new ArrayList<JFParam>();
-//		for(int i = 0; i < fields.length; i++) {
-//			String tag = fields[i].getName();
-//			
-//			Method meth = null;
-//			try {
-//				meth =  cl.getMethod("get" + upFirst(fields[i].getName()), new Class[0]);
-//			} catch(NoSuchMethodException ex) {
-//				try {
-//					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
-//				} catch(NoSuchMethodException ex1) {
-//					System.out.println("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
-//					continue;
-//				}
-//				
-//			}
-//			Object obj = meth.invoke(v, new Object[0]);
-//			params.add(new JFParam(tag, obj));
-//		}
-//		if(superClass != null) {
-//			Field[] sfields = superClass.getDeclaredFields();
-//			for(int i = 0; i < sfields.length; i++) {
-//				String tag = sfields[i].getName();
-//				Method meth = null;
-//				try {
-//					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()), new Class[0]);
-//				} catch(NoSuchMethodException ex) {
-//					try {
-//					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
-//					} catch(NoSuchMethodException ex1) {
-//						System.out.println("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
-//						continue;
-//					}
-//				}
-//				Object obj = meth.invoke(v, new Object[0]);
-//				params.add(new JFParam(tag, obj));
-//			}
-//		}
-//		
-//		return new JFObject(name, params);
-//	}
-//	
-//	private final String upFirst(String s) {
-//		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
-//	}
-//	
-	
 }

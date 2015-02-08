@@ -1,1 +1,1 @@
-{"name":"testEmptyArraySimpleBean","type":5000,"arrayClass":"[Lorg.jemz.jf.test.core.json.data.TestSimpleBean;","value":[]}
+{"n":"testEmptyArraySimpleBean","t":5000,"cl":"[Lorg.jemz.jf.test.core.json.data.TestSimpleBean;","v":[]}

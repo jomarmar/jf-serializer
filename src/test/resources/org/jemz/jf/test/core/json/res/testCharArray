@@ -1,1 +1,1 @@
-{"name":"testCharArray","type":5000,"arrayClass":"[C","value":[{"name":"e0","type":1005,"value":"A"},{"name":"e1","type":1005,"value":"B"},{"name":"e2","type":1005,"value":"C"}]}
+{"n":"testCharArray","t":5000,"cl":"[C","v":[{"n":"e0","t":1005,"v":"A"},{"n":"e1","t":1005,"v":"B"},{"n":"e2","t":1005,"v":"C"}]}

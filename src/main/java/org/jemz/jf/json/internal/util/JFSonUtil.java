@@ -15,11 +15,7 @@ public final class JFSonUtil {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JFSonUtil.class);
 	
-//	private JFSonUtil() {
-//
-//	}
-
-    public static final Object toObject(JFParam p) throws Exception {
+    public static Object toObject(JFParam p) throws Exception {
         switch(p.getType()) {
             case JFDataTypes.TYPE_OBJECTARRAY:
                 JFParamArray pArray = (JFParamArray) p.getValue();
@@ -80,32 +76,32 @@ public final class JFSonUtil {
     }
 	
 	
-	public static final Object getObject(String clazz, List<JFParam> attr) throws Exception {
+	public static Object getObject(String clazz, List<JFParam> attr) throws Exception {
 		try {
 			
 			
 			Class<?> cl = Class.forName(clazz);
 			Object pbi = cl.newInstance();
-			for(int i = 0; i < attr.size(); i++) {
-				Object obj = toObject(attr.get(i));
+            for (JFParam anAttr : attr) {
+                Object obj = toObject(anAttr);
 
-				try {
-					Method m = cl.getMethod("set" + upFirst(attr.get(i).getName()), obj.getClass());
-					m.invoke(pbi, obj);
-				} catch(Exception ex) {
-						Method[] methods = cl.getMethods();
-						Method meth = null;
-						for(int j = 0; j < methods.length; j++) {
-							if(methods[j].getName().equals("set" + upFirst(attr.get(i).getName()))) {
-								meth = methods[j];
-								break;
-							}
-						}
-						if(meth != null) {
-							meth.invoke(pbi, obj);
-						}
-				}
-			}
+                try {
+                    Method m = cl.getMethod("set" + upFirst(anAttr.getName()), obj.getClass());
+                    m.invoke(pbi, obj);
+                } catch (Exception ex) {
+                    Method[] methods = cl.getMethods();
+                    Method meth = null;
+                    for (Method method : methods) {
+                        if (method.getName().equals("set" + upFirst(anAttr.getName()))) {
+                            meth = method;
+                            break;
+                        }
+                    }
+                    if (meth != null) {
+                        meth.invoke(pbi, obj);
+                    }
+                }
+            }
 			return pbi;
 			
 		} catch (Exception e) {
@@ -115,7 +111,7 @@ public final class JFSonUtil {
 	}
 	
 	
-	public final static JFObject toJFObject(Object v) throws Exception {
+	public static JFObject toJFObject(Object v) throws Exception {
 		if(v instanceof JFObject) {
 			return (JFObject)v;
 		}
@@ -123,43 +119,43 @@ public final class JFSonUtil {
 	
 		Class<?> cl = Class.forName(name);
 		
-		Class<?> superClass =  (Class<?>) cl.getSuperclass();
+		Class<?> superClass = cl.getSuperclass();
 		Field[] fields = cl.getDeclaredFields();
 		List<JFParam> params = new ArrayList<JFParam>();
-		for(int i = 0; i < fields.length; i++) {
-			String tag = fields[i].getName();
-			
-			Method meth = null;
-			try {
-				meth =  cl.getMethod("get" + upFirst(fields[i].getName()), new Class[0]);
-			} catch(NoSuchMethodException ex) {
-				try {
-					meth =  cl.getMethod("is" + upFirst(fields[i].getName()), new Class[0]);	
-				} catch(NoSuchMethodException ex1) {
-					logger.warn("Cannot find method for: " + cl.getName() + "::" + fields[i].getName());
-					continue;
-				}
-				
-			}
-			Object obj = meth.invoke(v, new Object[0]);
-			params.add(new JFParam(tag, obj));
-		}
+        for (Field field : fields) {
+            String tag = field.getName();
+
+            Method meth;
+            try {
+                meth = cl.getMethod("get" + upFirst(field.getName()));
+            } catch (NoSuchMethodException ex) {
+                try {
+                    meth = cl.getMethod("is" + upFirst(field.getName()));
+                } catch (NoSuchMethodException ex1) {
+                    logger.warn("Cannot find method for: " + cl.getName() + "::" + field.getName());
+                    continue;
+                }
+
+            }
+            Object obj = meth.invoke(v);
+            params.add(new JFParam(tag, obj));
+        }
 		if(superClass != null) {
 			Field[] sfields = superClass.getDeclaredFields();
 			for(int i = 0; i < sfields.length; i++) {
 				String tag = sfields[i].getName();
-				Method meth = null;
+				Method meth;
 				try {
-					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()), new Class[0]);
+					meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()));
 				} catch(NoSuchMethodException ex) {
 					try {
-					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()), new Class[0]);
+					meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()));
 					} catch(NoSuchMethodException ex1) {
 						logger.warn("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
 						continue;
 					}
 				}
-				Object obj = meth.invoke(v, new Object[0]);
+				Object obj = meth.invoke(v);
 				params.add(new JFParam(tag, obj));
 			}
 		}
@@ -172,8 +168,8 @@ public final class JFSonUtil {
 //		return param.getValue();
 //	}
 	
-	private static final String upFirst(String s) {
-		return (s.length() > 0) ? Character.toUpperCase(s.charAt(0)) + s.substring(1) :	s;
+	private static String upFirst(String s) {
+		return (s.length() > 0) ? (Character.toUpperCase(s.charAt(0)) + s.substring(1)) : s;
 	}
 
 }

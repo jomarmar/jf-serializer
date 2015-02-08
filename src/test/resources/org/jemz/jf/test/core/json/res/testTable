@@ -1,1 +1,1 @@
-{"name":"testTable","type":3002,"value":[{"key":{"name":"key0","type":1009,"value":"T2"},"value":{"name":"value0","type":1009,"value":"Value2"}},{"key":{"name":"key1","type":1009,"value":"T1"},"value":{"name":"value1","type":1009,"value":"Value1"}}]}
+{"n":"testTable","t":3002,"v":[{"mk":{"n":"k0","t":1009,"v":"T2"},"mv":{"n":"v0","t":1009,"v":"Value2"}},{"mk":{"n":"k1","t":1009,"v":"T1"},"mv":{"n":"v1","t":1009,"v":"Value1"}}]}

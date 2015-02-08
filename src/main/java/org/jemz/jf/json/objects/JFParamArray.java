@@ -1,6 +1,6 @@
 package org.jemz.jf.json.objects;
 
-import org.jemz.jf.json.internal.util.JFDataTypes;
+import org.jemz.jf.json.internal.util.IJFConstants;
 import org.jemz.jf.json.internal.util.JFSonUtil;
 
 import java.lang.reflect.Array;
@@ -8,7 +8,7 @@ import java.lang.reflect.Array;
 /**
  * Created by jmartinez on 2/2/15.
  */
-public class JFParamArray {
+public class JFParamArray implements IJFConstants {
 
 
         private String cl;
@@ -62,34 +62,34 @@ public class JFParamArray {
         }
 
         public Object getArray() throws Exception {
-            Class clazz = null;
+            Class clazz;
             dim = countArrayDimension();
 
-            if(cl.endsWith(JFDataTypes.JAVA_TYPE_CHARACTERARRAY)) {
+            if(cl.endsWith(JAVA_TYPE_CHARACTERARRAY)) {
                 if(dim == 1) {
                     clazz = char.class;
                 } else {
                     clazz = Class.forName(cl.substring(dim -1));
                 }
-            } else if (cl.endsWith(JFDataTypes.JAVA_TYPE_INTEGERARRAY)) {
+            } else if (cl.endsWith(JAVA_TYPE_INTEGERARRAY)) {
                 if(dim == 1) {
                     clazz = int.class;
                 } else {
                     clazz = Class.forName(cl.substring(dim -1));
                 }
-            } else if (cl.endsWith(JFDataTypes.JAVA_TYPE_LONGARRAY)) {
+            } else if (cl.endsWith(JAVA_TYPE_LONGARRAY)) {
                 if(dim == 1) {
                     clazz = long.class;
                 } else {
                     clazz = Class.forName(cl.substring(dim -1));
                 }
-            } else if (cl.endsWith(JFDataTypes.JAVA_TYPE_FLOATARRAY)) {
+            } else if (cl.endsWith(JAVA_TYPE_FLOATARRAY)) {
                 if(dim == 1) {
                     clazz = float.class;
                 } else {
                     clazz = Class.forName(cl.substring(dim -1));
                 }
-            } else if (cl.endsWith(JFDataTypes.JAVA_TYPE_DOUBLEARRAY)) {
+            } else if (cl.endsWith(JAVA_TYPE_DOUBLEARRAY)) {
                 if(dim == 1) {
                     clazz = double.class;
                 } else {
@@ -97,7 +97,7 @@ public class JFParamArray {
                 }
             }
 
-//            else if (cl.endsWith(JFDataTypes.JAVA_TYPE_BYTEARRAY)) {
+//            else if (cl.endsWith(JAVA_TYPE_BYTEARRAY)) {
 //                if(dim == 1) {
 //                    clazz = byte.class;
 //                } else {
@@ -105,26 +105,14 @@ public class JFParamArray {
 //                }
 //
 //            }
-            else if (cl.endsWith(JFDataTypes.JAVA_TYPE_BOOLEANARRAY)) {
+            else if (cl.endsWith(JAVA_TYPE_BOOLEANARRAY)) {
                 if(dim == 1) {
                     clazz = boolean.class;
                 } else {
                     clazz = Class.forName(cl.substring(dim -1));
                 }
 
-            }
-//        else if (cl.equals("[Ljava.lang.String;")) {
-//            clazz = String.class;
-//            return paramArray;
-//        }
-//            else if (cl.equals("[Lcom.dtg.puma.common.objects.JFParam;")) {
-//                if(paramArray == null) {
-//                    paramArray = new JFParam[0];
-//                }
-//                return paramArray;
-//            }
-
-            else {
+            } else {
                 if(dim == 1) {
                     clazz = Class.forName(cl.substring(2, cl.length()-1));
                 } else {

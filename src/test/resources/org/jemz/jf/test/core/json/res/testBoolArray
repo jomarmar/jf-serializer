@@ -1,1 +1,1 @@
-{"name":"testBoolArray","type":5000,"arrayClass":"[Z","value":[{"name":"e0","type":1006,"value":true},{"name":"e1","type":1006,"value":false},{"name":"e2","type":1006,"value":true}]}
+{"n":"testBoolArray","t":5000,"cl":"[Z","v":[{"n":"e0","t":1006,"v":true},{"n":"e1","t":1006,"v":false},{"n":"e2","t":1006,"v":true}]}

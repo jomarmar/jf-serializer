@@ -11,7 +11,6 @@ import org.jemz.jf.json.internal.util.JFSonUtil;
 
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JFParam.
  */
@@ -62,21 +61,6 @@ public class JFParam {
     private void setJFParam(String name, Object value) throws Exception {
         this.name = name;
         this.type = JFDataTypes.getJFType(value);
-//        if(value == null) {
-//            this.type = JFDataTypes.TYPE_NULL;
-//        } else {
-//            if(value.getClass().isArray()) {
-//                if(value instanceof byte[] || value instanceof Byte[]) {
-//                    this.type = JFDataTypes.TYPE_BASE64;
-//                } else {
-//                    this.type = JFDataTypes.TYPE_OBJECTARRAY;
-//                }
-//            } else {
-//                this.type = JFDataTypes.getJFType(value.getClass().getName());
-//            }
-//
-//        }
-
         switch(this.type) {
             case JFDataTypes.TYPE_BASE64:
                 this.value = Base64.encode((byte[]) value);
@@ -156,27 +140,22 @@ public class JFParam {
 	}
 
 
-    private final List<JFParam> getListParams(List<?> val) throws Exception {
+    private List<JFParam> getListParams(List<?> val) throws Exception {
         List<JFParam> res = new ArrayList<JFParam>();
         int count = 0;
-        Iterator<?> iter = val.iterator();
-        while(iter.hasNext()) {
-            Object obj = iter.next();
-            JFParam pp = new JFParam("elem"+ count++, obj);
+        for(Object p : val) {
+            JFParam pp = new JFParam("e"+ count++, p);
             res.add(pp);
         }
         return res;
     }
 
-    private final Map<JFParam, JFParam> getMapParams(Map<?,?> val) throws Exception {
+    private Map<JFParam, JFParam> getMapParams(Map<?,?> val) throws Exception {
         Map<JFParam, JFParam> res = new LinkedHashMap<JFParam, JFParam>();
         int count = 0;
-        Iterator<?> iter = val.keySet().iterator();
-        while(iter.hasNext()) {
-            Object key = iter.next();
-            Object value = val.get(key);
-            JFParam ppKey = new JFParam("key"+ count, key);
-            JFParam ppVal = new JFParam("value"+ count, value);
+        for(Map.Entry<?, ?> e : val.entrySet()) {
+            JFParam ppKey = new JFParam("k"+ count, e.getKey());
+            JFParam ppVal = new JFParam("v"+ count, e.getValue());
             res.put(ppKey, ppVal);
             count++;
         }

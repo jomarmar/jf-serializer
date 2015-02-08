@@ -1,1 +1,1 @@
-{"name":"testMap","type":3004,"value":[{"key":{"name":"key0","type":1009,"value":"M2"},"value":{"name":"value0","type":1009,"value":"Value2"}},{"key":{"name":"key1","type":1009,"value":"M1"},"value":{"name":"value1","type":1009,"value":"Value1"}}]}
+{"n":"testMap","t":3004,"v":[{"mk":{"n":"k0","t":1009,"v":"M2"},"mv":{"n":"v0","t":1009,"v":"Value2"}},{"mk":{"n":"k1","t":1009,"v":"M1"},"mv":{"n":"v1","t":1009,"v":"Value1"}}]}
