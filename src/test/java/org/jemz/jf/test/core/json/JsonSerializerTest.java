@@ -6,8 +6,10 @@
 package org.jemz.jf.test.core.json;
 
 import org.jemz.jf.json.JsonSerializer;
+import org.jemz.jf.json.internal.util.JFSonUtil;
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.test.core.json.data.JFTestData;
+import org.jemz.jf.test.core.json.data.TestSimpleBean;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -532,6 +534,56 @@ public class JsonSerializerTest {
         JFUnitAssert.assertJFParam(p, obj);
 		
 	}
+
+    @Test
+    public void testint2A() throws Exception {
+
+
+        int[][] int2A = new int[][]{{1,2,3,4}, {10,20,30,40}};
+
+        JFParam p = new JFParam("testInt2Array", int2A);
+
+        JFUnitAssert.TimeEllapsed.start(p.getName());
+        String xml = serializer.serialize(p);
+        logger.debug("SERIALIZE OBJ: " + xml);
+        JFUnitAssert.TimeEllapsed.endSerialize();
+
+//		// Parse
+        JFUnitAssert.TimeEllapsed.start(p.getName());
+        JFParam obj = serializer.parse(xml);
+
+        JFUnitAssert.TimeEllapsed.endParse();
+
+
+
+        JFUnitAssert.assertJFParam(p, obj);
+
+
+    }
+
+    @Test
+    public void testSimpleBean2A() throws Exception {
+        TestSimpleBean[][] sb2A = new TestSimpleBean[][]{JFTestData.beanATest, JFTestData.beanATest};
+
+        JFParam p = new JFParam("testSB2A", sb2A);
+        JFUnitAssert.TimeEllapsed.start(p.getName());
+        String xml = serializer.serialize(p);
+        logger.debug("SERIALIZE OBJ: " + xml);
+
+        JFUnitAssert.TimeEllapsed.endSerialize();
+
+//		// Parse
+        JFUnitAssert.TimeEllapsed.start(p.getName());
+        JFParam obj = serializer.parse(xml);
+
+        JFUnitAssert.TimeEllapsed.endParse();
+
+        JFUnitAssert.assertJFParam(p, obj);
+
+
+    }
+
+
 	
 	/**
 	 * Test list.

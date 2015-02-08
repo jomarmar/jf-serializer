@@ -5,10 +5,13 @@
  */
 package org.jemz.jf.test.core.json;
 
+import org.jemz.jf.json.internal.util.JFSonUtil;
 import org.jemz.jf.json.objects.JFParam;
 import org.jemz.jf.json.internal.parser.JFStreamParser;
 import org.jemz.jf.json.internal.serializer.JFStreamSerializer;
 import org.jemz.jf.test.core.json.data.JFTestData;
+import org.jemz.jf.test.core.json.data.TestSimpleBean;
+import org.junit.Assert;
 import org.junit.Test;
 
 // TODO: Auto-generated Javadoc
@@ -549,6 +552,50 @@ public class JFStreamSerializationTest {
 		JFUnitAssert.TimeEllapsed.endParse();
 		JFUnitAssert.assertTestSimpleBeanArray(par, obj);
 	}
+
+    @Test
+    public void testint2A() throws Exception {
+
+        
+        int[][] int2A = new int[][]{{1,2,3,4}, {10,20,30,40}};
+
+        JFParam par = new JFParam("testInt2Array", int2A);
+
+        JFUnitAssert.TimeEllapsed.start(par.getName());
+        ser.writeJFParam(par, TEST_FILES_PATH + par.getName());
+        
+        JFUnitAssert.TimeEllapsed.endSerialize();
+
+//		// Parse
+        JFUnitAssert.TimeEllapsed.start(par.getName());
+        JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
+
+        JFUnitAssert.TimeEllapsed.endParse();
+
+
+        JFUnitAssert.assertJFParam(par, obj);
+
+    }
+
+    @Test
+    public void testSimpleBean2A() throws Exception {
+        TestSimpleBean[][] sb2A = new TestSimpleBean[][]{JFTestData.beanATest, JFTestData.beanATest};
+
+        JFParam par = new JFParam("testSB2A", sb2A);
+        JFUnitAssert.TimeEllapsed.start(par.getName());
+        ser.writeJFParam(par, TEST_FILES_PATH + par.getName());
+
+        JFUnitAssert.TimeEllapsed.endSerialize();
+
+//		// Parse
+        JFUnitAssert.TimeEllapsed.start(par.getName());
+        JFParam obj = (JFParam)parser.readJFParam(TEST_FILES_PATH + par.getName());
+
+        JFUnitAssert.TimeEllapsed.endParse();
+
+        JFUnitAssert.assertJFParam(par, obj);
+
+    }
 	
 	/**
 	 * Test list.
