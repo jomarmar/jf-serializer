@@ -7,7 +7,7 @@ package org.jemz.jf.json;
 
 import java.io.*;
 
-import org.jemz.jf.json.objects.JFParam;
+import org.jemz.jf.json.internal.objects.JFParam;
 import org.jemz.jf.json.internal.parser.JFStreamParser;
 
 import org.jemz.jf.json.internal.serializer.JFStreamSerializer;

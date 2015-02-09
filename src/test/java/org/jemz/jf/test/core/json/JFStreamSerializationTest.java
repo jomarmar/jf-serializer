@@ -6,12 +6,11 @@
 package org.jemz.jf.test.core.json;
 
 
-import org.jemz.jf.json.objects.JFParam;
+import org.jemz.jf.json.internal.objects.JFParam;
 import org.jemz.jf.json.internal.parser.JFStreamParser;
 import org.jemz.jf.json.internal.serializer.JFStreamSerializer;
 import org.jemz.jf.test.core.json.data.JFTestData;
 import org.jemz.jf.test.core.json.data.TestSimpleBean;
-import org.junit.Assert;
 import org.junit.Test;
 
 // TODO: Auto-generated Javadoc

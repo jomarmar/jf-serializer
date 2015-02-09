@@ -11,8 +11,7 @@ import org.jemz.jf.test.core.json.data.TestCompoundBean;
 import org.junit.Assert;
 import org.jemz.jf.json.JsonSerializer;
 
-import org.jemz.jf.json.internal.util.JFDataTypes;
-import org.jemz.jf.json.objects.JFParam;
+import org.jemz.jf.json.internal.objects.JFParam;
 import org.jemz.jf.test.core.json.data.JFTestData;
 import org.jemz.jf.test.core.json.data.TestSimpleBean;
 import org.junit.Test;

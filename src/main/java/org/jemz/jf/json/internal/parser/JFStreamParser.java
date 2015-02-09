@@ -13,9 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.jemz.jf.json.internal.util.IJFConstants;
-import org.jemz.jf.json.objects.JFObject;
-import org.jemz.jf.json.objects.JFParam;
-import org.jemz.jf.json.objects.JFParamArray;
+import org.jemz.jf.json.internal.objects.JFObject;
+import org.jemz.jf.json.internal.objects.JFParam;
+import org.jemz.jf.json.internal.objects.JFParamArray;
 import org.jemz.jf.json.internal.util.JFDataTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

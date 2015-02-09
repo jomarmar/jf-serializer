@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.jemz.jf.json.objects.JFObject;
-import org.jemz.jf.json.objects.JFParam;
-import org.jemz.jf.json.objects.JFParamArray;
+import org.jemz.jf.json.internal.objects.JFObject;
+import org.jemz.jf.json.internal.objects.JFParam;
+import org.jemz.jf.json.internal.objects.JFParamArray;
 
 import org.jemz.jf.test.core.json.data.JFTestData;
 import org.jemz.jf.test.core.json.data.TestComplexBean;

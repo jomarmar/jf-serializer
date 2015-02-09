@@ -3,7 +3,7 @@
  *
  * @author jomarmar (jomarmar@gmail.com)
  */
-package org.jemz.jf.json.objects;
+package org.jemz.jf.json.internal.objects;
 
 
 

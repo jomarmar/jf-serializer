@@ -1,4 +1,4 @@
-package org.jemz.jf.json.objects;
+package org.jemz.jf.json.internal.objects;
 
 import org.jemz.jf.json.internal.util.IJFConstants;
 
