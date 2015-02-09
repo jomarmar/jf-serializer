@@ -4,6 +4,8 @@ import org.jemz.jf.json.internal.util.IJFConstants;
 
 
 import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmartinez on 2/2/15.
@@ -11,11 +13,25 @@ import java.lang.reflect.Array;
 public class JFParamArray implements IJFConstants {
 
 
+
+
         private String cl;
 
         private JFParam[] paramArray;
 
         private int dim = 0;
+
+        private static Map<String, Class<?>> arrayType = new HashMap<String, Class<?>>();
+
+        static {
+            arrayType.put(JAVA_TYPE_BOOLEANARRAY, boolean.class);
+            arrayType.put(JAVA_TYPE_CHARACTERARRAY, char.class);
+            arrayType.put(JAVA_TYPE_INTEGERARRAY, int.class);
+            arrayType.put(JAVA_TYPE_FLOATARRAY, float.class);
+            arrayType.put(JAVA_TYPE_DOUBLEARRAY, double.class);
+            arrayType.put(JAVA_TYPE_LONGARRAY, long.class);
+
+        }
 
         public JFParamArray() {
 
@@ -65,50 +81,15 @@ public class JFParamArray implements IJFConstants {
             Class clazz;
             dim = countArrayDimension();
 
-            if(cl.endsWith(JAVA_TYPE_CHARACTERARRAY)) {
-                if(dim == 1) {
-                    clazz = char.class;
-                } else {
-                    clazz = Class.forName(cl.substring(dim -1));
-                }
-            } else if (cl.endsWith(JAVA_TYPE_INTEGERARRAY)) {
-                if(dim == 1) {
-                    clazz = int.class;
-                } else {
-                    clazz = Class.forName(cl.substring(dim -1));
-                }
-            } else if (cl.endsWith(JAVA_TYPE_LONGARRAY)) {
-                if(dim == 1) {
-                    clazz = long.class;
-                } else {
-                    clazz = Class.forName(cl.substring(dim -1));
-                }
-            } else if (cl.endsWith(JAVA_TYPE_FLOATARRAY)) {
-                if(dim == 1) {
-                    clazz = float.class;
-                } else {
-                    clazz = Class.forName(cl.substring(dim -1));
-                }
-            } else if (cl.endsWith(JAVA_TYPE_DOUBLEARRAY)) {
-                if(dim == 1) {
-                    clazz = double.class;
-                } else {
-                    clazz = Class.forName(cl.substring(dim -1));
-                }
-            } else if (cl.endsWith(JAVA_TYPE_BOOLEANARRAY)) {
-                if(dim == 1) {
-                    clazz = boolean.class;
-                } else {
-                    clazz = Class.forName(cl.substring(dim -1));
-                }
-
-            } else {
-                if(dim == 1) {
+            if(dim == 1) {
+                clazz = arrayType.get(cl);
+                if(clazz == null) {
                     clazz = Class.forName(cl.substring(2, cl.length()-1));
-                } else {
-                    clazz = Class.forName(cl.substring(dim-1));
                 }
+            } else {
+                clazz = Class.forName(cl.substring(dim-1));
             }
+
             int len = 0;
             if(paramArray != null) {
                 len = paramArray.length;
@@ -122,15 +103,15 @@ public class JFParamArray implements IJFConstants {
 
         public int countArrayDimension()
         {
-            int count = 0;
-            for (int i=0; i < cl.length(); i++)
+            int i;
+            for (i=0; i < cl.length(); i++)
             {
-                if (cl.charAt(i) == '[')
+                if (cl.charAt(i) != '[')
                 {
-                    count++;
+                    break;
                 }
             }
-            return count;
+            return i;
         }
 
     }
