@@ -210,10 +210,10 @@ public class JFStreamSerializer implements IJFConstants {
 		jswriter.name(FIELD_VALUE);
 		
 		
-		JFParam[] objA = obj.getParamArray();
+		List<JFParam> objA = obj.getParamArray();
 		jswriter.beginArray();
-		for(int i = 0; i < objA.length; i++) {
-			internalWriteJFParam(objA[i]);
+		for(int i = 0; i < objA.size(); i++) {
+			internalWriteJFParam(objA.get(i));
 		}
 		jswriter.endArray();
 		

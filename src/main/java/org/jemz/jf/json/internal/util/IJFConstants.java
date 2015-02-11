@@ -156,6 +156,9 @@ public interface IJFConstants {
     public static final String TAG_ATTRIBUTE = "a";
     public static final String TAG_ELEMENT = "e";
     public static final String TAG_CLASS = "c";
+    public static final String TAG_OBJECT = "obj";
+    public static final String TAG_OBJECTARRAY = "objA";
+
 
 
 
