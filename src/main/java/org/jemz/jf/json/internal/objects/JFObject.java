@@ -37,7 +37,9 @@ public class JFObject {
 	 */
 	private List<JFParam> attr = new ArrayList<JFParam>();
 
-	/**
+	public JFObject() {}
+
+    /**
 	 * Instantiates a new JF object.
 	 *
 	 * @param cl the fully qualified class name

@@ -255,7 +255,7 @@ public class JFStreamParser implements IJFConstants {
 
         JFParamArray array = new JFParamArray();
         array.setCl(arrayClass);
-        array.setParamArray(elems.toArray(o));
+        array.setParamArray(elems);
         return array;
 		
 	}

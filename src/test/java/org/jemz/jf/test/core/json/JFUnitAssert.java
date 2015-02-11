@@ -286,13 +286,13 @@ public class JFUnitAssert {
         } else {
             Assert.assertNotNull(actual.getValue());
         }
-        JFParam[] expectedObj = ((JFParamArray)expected.getValue()).getParamArray();
-        JFParam[] actualObj = ((JFParamArray)actual.getValue()).getParamArray();
+        List<JFParam> expectedObj = ((JFParamArray)expected.getValue()).getParamArray();
+        List<JFParam> actualObj = ((JFParamArray)actual.getValue()).getParamArray();
 
         try {
 
-            for(int i = 0; i < expectedObj.length; i++) {
-                assertJFParam(expectedObj[i], actualObj[i]);
+            for(int i = 0; i < expectedObj.size(); i++) {
+                assertJFParam(expectedObj.get(i), actualObj.get(i));
             }
         } catch (Exception e) {
             Assert.fail(e.getMessage());

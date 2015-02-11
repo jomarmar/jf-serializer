@@ -19,10 +19,18 @@ public interface IJFConstants {
     public static final String FIELD_NAME       = "n";
     public static final String FIELD_TYPE       = "t";
     public static final String FIELD_VALUE      = "v";
-    public static final String FIELD_CLASS      = "cl";
+    public static final String FIELD_CLASS      = "c";
+    public static final String FIELD_MAP_ENTRY    = "me";
     public static final String FIELD_MAP_KEY    = "mk";
     public static final String FIELD_MAP_VALUE  = "mv";
-    public static final String FIELD_ATTRIBUTE  = "atr";
+    public static final String FIELD_ATTRIBUTE  = "a";
+    public static final String FIELD_PARAM      = "p";
+    public static final String FIELD_LIST       = "l";
+    public static final String FIELD_MAP        = "m";
+    public static final String FIELD_ELEMENT    = "e";
+
+
+
 
 
     /** The Constant JAVA_TYPE_INTEGERARRAY. */
@@ -141,6 +149,13 @@ public interface IJFConstants {
 
     /** The Constant JAVA_TYPE_NULL. */
     public static final String JAVA_TYPE_NULL = "null";
+
+
+    // XML TAGS
+    public static final String TAG_PARAM = "p";
+    public static final String TAG_ATTRIBUTE = "a";
+    public static final String TAG_ELEMENT = "e";
+    public static final String TAG_CLASS = "c";
 
 
 
