@@ -1,1 +1,1 @@
-{"n":"testStringArray","t":5000,"cl":"[Ljava.lang.String;","v":[{"n":"e0","t":1009,"v":"test1"},{"n":"e1","t":1009,"v":"test2"},{"n":"e2","t":1009,"v":"test3"}]}
+{"n":"testStringArray","t":5000,"c":"[Ljava.lang.String;","v":[{"n":"e0","t":1009,"v":"test1"},{"n":"e1","t":1009,"v":"test2"},{"n":"e2","t":1009,"v":"test3"}]}

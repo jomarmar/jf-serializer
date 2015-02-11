@@ -4,6 +4,7 @@ import org.jemz.jf.json.internal.objects.JFObject;
 import org.jemz.jf.json.internal.objects.JFParam;
 import org.jemz.jf.json.internal.objects.JFParamArray;
 import org.jemz.jf.json.internal.util.IJFConstants;
+import org.jemz.jf.json.internal.util.JFDataTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,6 +109,8 @@ public class JFXmlParser implements IJFConstants {
                                 p.setValue(getMapObject());
                                 break;
 
+
+
                         }
 
 
@@ -123,6 +124,9 @@ public class JFXmlParser implements IJFConstants {
                     break;
                 case XMLStreamConstants.CHARACTERS:
                     switch(p.getType()) {
+                        case TYPE_NULL:
+                            p.setValue(null);
+                            break;
                         case TYPE_BOOLEAN:
                             p.setValue(Boolean.parseBoolean(jsreader.getText()));
                             break;
@@ -146,6 +150,10 @@ public class JFXmlParser implements IJFConstants {
                             break;
                         case TYPE_STRING:
                             p.setValue((recoverNonValidXMLCharacters(jsreader.getText())));
+                            break;
+                        case TYPE_DATE:
+                            SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
+                            p.setValue(format.parse(jsreader.getText()));
                             break;
                         default:
                             p.setValue(jsreader.getText());
@@ -257,7 +265,7 @@ public class JFXmlParser implements IJFConstants {
             int eventType = jsreader.getEventType();
             switch(eventType) {
                 case XMLStreamConstants.START_ELEMENT:
-                    if(jsreader.getLocalName().equals(TYPE_OBJECT)) {
+                    if(jsreader.getLocalName().equals(TAG_OBJECT)) {
                         obj.setClazz(jsreader.getAttributeValue("", FIELD_CLASS));
 
                     } else if (jsreader.getLocalName().equals(FIELD_ATTRIBUTE)) {
@@ -266,7 +274,7 @@ public class JFXmlParser implements IJFConstants {
 
                     break;
                 case XMLStreamConstants.END_ELEMENT:
-                    if(jsreader.getLocalName().equals(TYPE_OBJECT)) {
+                    if(jsreader.getLocalName().equals(TAG_OBJECT)) {
                         return obj;
                     }
                     break;
@@ -289,7 +297,7 @@ public class JFXmlParser implements IJFConstants {
             int eventType = jsreader.getEventType();
             switch(eventType) {
                 case XMLStreamConstants.START_ELEMENT:
-                    if(jsreader.getLocalName().equals(TYPE_OBJECTARRAY)) {
+                    if(jsreader.getLocalName().equals(TAG_OBJECTARRAY)) {
                         pArray.setCl(jsreader.getAttributeValue("", FIELD_CLASS));
 
                     } else if (jsreader.getLocalName().equals(FIELD_ELEMENT)) {
@@ -298,7 +306,7 @@ public class JFXmlParser implements IJFConstants {
 
                     break;
                 case XMLStreamConstants.END_ELEMENT:
-                    if(jsreader.getLocalName().equals(TYPE_OBJECTARRAY)) {
+                    if(jsreader.getLocalName().equals(TAG_OBJECTARRAY)) {
                         return pArray;
                     }
                     break;

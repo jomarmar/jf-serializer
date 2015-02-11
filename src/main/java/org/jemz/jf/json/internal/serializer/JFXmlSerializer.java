@@ -11,9 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.*;
 import java.io.*;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by jmartinez on 2/10/15.
@@ -113,6 +112,10 @@ public class JFXmlSerializer implements IJFConstants {
                 break;
             case JFDataTypes.TYPE_STRING:
                 jswriter.writeCharacters(replaceNonValidXMLCharacters((String)obj.getValue()));
+                break;
+            case TYPE_DATE:
+                SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
+                jswriter.writeCharacters(format.format((Date)obj.getValue()));
                 break;
             default:
                 jswriter.writeCharacters(""+obj.getValue());

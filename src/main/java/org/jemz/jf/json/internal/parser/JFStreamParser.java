@@ -5,9 +5,7 @@
  */
 package org.jemz.jf.json.internal.parser;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -45,10 +43,9 @@ public class JFStreamParser implements IJFConstants {
 	 * @return the JF param
 	 * @throws Exception the exception
 	 */
-	public JFParam readJFParam(String file) throws Exception {
-		FileInputStream fos = new FileInputStream(file);
-		jsreader = new JsonReader(new InputStreamReader(fos, DEFAULT_ENCODING));
-		return readJFParam();
+	public JFParam readJFParam(File file) throws Exception {
+		FileInputStream fis = new FileInputStream(file);
+		return readJFParam(fis);
 	}
 	
 	/**
@@ -63,6 +60,12 @@ public class JFStreamParser implements IJFConstants {
 		return readJFParam();
 		
 	}
+
+    public JFParam readJFParam(String xml) throws Exception {
+        ByteArrayInputStream bis = new ByteArrayInputStream(xml.getBytes());
+        return readJFParam(bis);
+    }
+
 	
 	/**
 	 * Read jf param.
@@ -70,7 +73,7 @@ public class JFStreamParser implements IJFConstants {
 	 * @return the JF param
 	 * @throws Exception the exception
 	 */
-	public JFParam readJFParam() throws Exception {
+	private JFParam readJFParam() throws Exception {
 		JFParam param = internalReadJFParam();
 		jsreader.close();
 		return param;

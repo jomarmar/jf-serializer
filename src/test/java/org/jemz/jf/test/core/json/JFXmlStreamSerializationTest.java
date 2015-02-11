@@ -8,7 +8,9 @@ package org.jemz.jf.test.core.json;
 
 import org.jemz.jf.json.internal.objects.JFParam;
 import org.jemz.jf.json.internal.parser.JFStreamParser;
+import org.jemz.jf.json.internal.parser.JFXmlParser;
 import org.jemz.jf.json.internal.serializer.JFStreamSerializer;
+import org.jemz.jf.json.internal.serializer.JFXmlSerializer;
 import org.jemz.jf.test.core.json.data.JFTestData;
 import org.jemz.jf.test.core.json.data.TestSimpleBean;
 import org.junit.Test;
@@ -16,14 +18,15 @@ import org.junit.Test;
 import java.io.File;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class JFStreamSerializationTest.
  */
-public class JFStreamSerializationTest {
+public class JFXmlStreamSerializationTest {
 
-	private static final String TEST_FILES_PATH = "./src/test/resources/org/jemz/jf/test/core/json/res/";
-	private static JFStreamSerializer ser = new JFStreamSerializer();
-	private static JFStreamParser parser = new JFStreamParser();
+	private static final String TEST_FILES_PATH = "./src/test/resources/org/jemz/jf/test/core/xml/res/";
+	private static JFXmlSerializer ser = new JFXmlSerializer();
+	private static JFXmlParser parser = new JFXmlParser();
 	
 
 	/**
