@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 
@@ -124,13 +123,23 @@ public class JFObject {
 		this.attr = attribute;
 	}
 
+	private static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+		fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+		if(type.getSuperclass() != null) {
+			fields = getAllFields(fields, type.getSuperclass());
+		}
+
+		return fields;
+	}
+
     private void toJFObject(Object v) throws Exception {
         this.clazz = v.getClass().getName();
 
         Class<?> cl = Class.forName(this.clazz);
 
-        Class<?> superClass = cl.getSuperclass();
-        Field[] fields = cl.getDeclaredFields();
+//        Class<?> superClass = cl.getSuperclass();
+        List<Field> fields = getAllFields(new LinkedList<Field>(), cl);
 
         for (Field field : fields) {
             String tag = field.getName();
@@ -150,26 +159,6 @@ public class JFObject {
             Object obj = meth.invoke(v);
             this.attr.add(new JFParam(tag, obj));
         }
-        if(superClass != null) {
-            Field[] sfields = superClass.getDeclaredFields();
-            for(int i = 0; i < sfields.length; i++) {
-                String tag = sfields[i].getName();
-                Method meth;
-                try {
-                    meth =  superClass.getMethod("get" + upFirst(sfields[i].getName()));
-                } catch(NoSuchMethodException ex) {
-                    try {
-                        meth =  superClass.getMethod("is" + upFirst(sfields[i].getName()));
-                    } catch(NoSuchMethodException ex1) {
-                        logger.warn("Cannot find method for: " + superClass.getName() + "::" + fields[i].getName());
-                        continue;
-                    }
-                }
-                Object obj = meth.invoke(v);
-                this.attr.add(new JFParam(tag, obj));
-            }
-        }
-
     }
 
     private String upFirst(String s) {
